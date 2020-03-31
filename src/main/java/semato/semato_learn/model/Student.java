@@ -1,16 +1,18 @@
 package semato.semato_learn.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @Entity
-public class Student {
+public class Student extends User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +21,6 @@ public class Student {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_id")
     private Group group;
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @NonNull
-    private User user;
 
     @OneToMany(mappedBy="student")
     private Set<Grade> gradeList;

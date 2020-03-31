@@ -1,22 +1,18 @@
 package semato.semato_learn.model;
 
 import lombok.*;
-import org.springframework.lang.Nullable;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Entity
-@Table(name = "users")
 public class User implements Serializable {
 
     @Id
