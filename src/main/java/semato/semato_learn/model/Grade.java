@@ -9,6 +9,8 @@ import java.util.Date;
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 public class Grade {
 

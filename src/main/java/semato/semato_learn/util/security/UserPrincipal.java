@@ -31,7 +31,7 @@ public class UserPrincipal implements UserDetails {
         );
     }
 
-    Long getId() {
+    public Long getId() {
         return id;
     }
 

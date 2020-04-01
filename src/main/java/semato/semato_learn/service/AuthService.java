@@ -6,7 +6,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import semato.semato_learn.controller.payload.LoginRequest;
 import semato.semato_learn.util.security.JwtTokenProvider;
 
 @Service
@@ -20,11 +19,10 @@ public class AuthService {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    public void authenticateUser(LoginRequest loginRequest){
+    public void authenticateUser(String email, String password){
         this.authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
+                        email, password
                 )
         );
 
