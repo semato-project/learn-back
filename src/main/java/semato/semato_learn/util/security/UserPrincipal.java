@@ -12,6 +12,8 @@ import java.util.*;
 @AllArgsConstructor
 public class UserPrincipal implements UserDetails {
 
+    private User user;
+
     private Long id;
 
     private String email;
@@ -24,11 +26,16 @@ public class UserPrincipal implements UserDetails {
     static UserPrincipal create(User user) {
 
         return new UserPrincipal(
+                user,
                 user.getId(),
                 user.getEmail(),
                 user.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()))
         );
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public Long getId() {
