@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import semato.semato_learn.service.GradeManagerService;
 import semato.semato_learn.util.security.CurrentUser;
 import semato.semato_learn.util.security.UserPrincipal;
+import springfox.documentation.annotations.ApiIgnore;
 
 
 @RestController
@@ -26,10 +27,10 @@ public class GradeController {
                                    @ApiParam(example = "1") @RequestParam long taskId,
                                    @ApiParam(example = "1") @RequestParam int taskNumber,
                                    @ApiParam(example = "4.5") @RequestParam double grade,
-                                   @CurrentUser UserPrincipal currentUser) {
+                                   @ApiIgnore @CurrentUser UserPrincipal currentUser) {
 
         try {
-            gradeManagerService.addGrade(studentId, taskId, taskNumber, grade, currentUser);
+            gradeManagerService.addGrade(studentId, taskId, taskNumber, grade, currentUser.getId());
         } catch (IllegalArgumentException exp) {
             return ResponseEntity.badRequest().body(exp.getMessage());
         }
@@ -44,9 +45,9 @@ public class GradeController {
                                     @ApiParam(example = "1") @RequestParam long taskId,
                                     @ApiParam(example = "1") @RequestParam int taskNumber,
                                     @ApiParam(example = "4.5") @RequestParam double newGrade,
-                                    @CurrentUser UserPrincipal currentUser) {
+                                    @ApiIgnore @CurrentUser UserPrincipal currentUser) {
         try {
-            gradeManagerService.editGrade(studentId, taskId, taskNumber, newGrade, currentUser);
+            gradeManagerService.editGrade(studentId, taskId, taskNumber, newGrade, currentUser.getId());
         } catch (IllegalArgumentException exp) {
             return ResponseEntity.badRequest().body(exp.getMessage());
         }

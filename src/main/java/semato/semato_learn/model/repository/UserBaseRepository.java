@@ -15,6 +15,6 @@ public interface UserBaseRepository<T extends User> extends JpaRepository<T, Lon
 
     Optional<T> findById(long id);
 
-    Optional<Lecturer> findByCourseAndId(Course course, long id);
+    Optional<Lecturer> findByCoursesAndId(Course course, long id);
 
 }

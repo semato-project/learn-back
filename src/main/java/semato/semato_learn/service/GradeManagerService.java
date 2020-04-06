@@ -9,7 +9,6 @@ import semato.semato_learn.model.Task;
 import semato.semato_learn.model.repository.GradeRepository;
 import semato.semato_learn.model.repository.TaskRepository;
 import semato.semato_learn.model.repository.UserBaseRepository;
-import semato.semato_learn.util.security.UserPrincipal;
 
 import java.util.Date;
 
@@ -28,18 +27,22 @@ public class GradeManagerService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public void addGrade(long studentId, long taskId, int taskNumber, double grade, UserPrincipal currentUser) throws IllegalArgumentException {
+    public void addGrade(long studentId, long taskId, int taskNumber, double grade, Long lecturerId) throws IllegalArgumentException {
 
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found!"));
 
-        lecturerRepository.findByCourseAndId(task.getCourse(), currentUser.getId())
+        lecturerRepository.findByCoursesAndId(task.getCourse(), lecturerId)
                 .orElseThrow(() -> new IllegalArgumentException("Task isn't manage by this lecturer!"));
 
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalArgumentException("Student not found!"));
 
-        if (gradeRepository.findByStudentAndTaskAndTaskNumber(studentId, taskId, taskNumber).isPresent()) {
+        if (gradeRepository.findByStudentIdAndTaskIdAndTaskNumber(studentId, taskId, taskNumber).isPresent()) {
             throw new IllegalArgumentException("This student actually have the grade for this task number!");
+        }
+
+        if(taskNumber < 0 || task.getQuantity() < taskNumber){
+            throw new IllegalArgumentException("Task number is incorrect. Max task number is: " + task.getQuantity());
         }
 
         gradeRepository.save(Grade.builder()
@@ -50,13 +53,13 @@ public class GradeManagerService {
                 .build());
     }
 
-    public void editGrade(long studentId, long taskId, int taskNumber, double grade, UserPrincipal currentUser) {
+    public void editGrade(long studentId, long taskId, int taskNumber, double grade, Long lecturerId) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found!"));
-        lecturerRepository.findByCourseAndId(task.getCourse(), currentUser.getId())
+        lecturerRepository.findByCoursesAndId(task.getCourse(), lecturerId)
                 .orElseThrow(() -> new IllegalArgumentException("Task isn't manage by this lecturer!"));
 
-        Grade gradeToUpdate = gradeRepository.findByStudentAndTaskAndTaskNumber(studentId, taskId, taskNumber)
+        Grade gradeToUpdate = gradeRepository.findByStudentIdAndTaskIdAndTaskNumber(studentId, taskId, taskNumber)
                 .orElseThrow(() -> new IllegalArgumentException("Grade not found!"));
 
         gradeToUpdate.setGradeValue(grade);
