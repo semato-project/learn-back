@@ -21,7 +21,7 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public static UserPrincipal create(User user) {
+    static UserPrincipal create(User user) {
 
         return new UserPrincipal(
                 user.getId(),
