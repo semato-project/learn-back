@@ -22,6 +22,7 @@ public class UserController {
     private CreateLecturerService createLecturerService;
 
     @PostMapping("/add/student")
+    @ApiOperation(value = "Endpoint to add new student")
     public ResponseEntity addStudent(@RequestBody UserAddRequest user) {
         try {
             createStudentService.addUser(user);
@@ -33,6 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/add/lecturer")
+    @ApiOperation(value = "Endpoint to add new lecturer")
     public ResponseEntity addLecturer(@RequestBody UserAddRequest user) {
         try {
             createLecturerService.addUser(user);
