@@ -7,7 +7,6 @@ import semato.semato_learn.controller.payload.UserAddRequest;
 import semato.semato_learn.exception.EmailAlreadyInUse;
 import semato.semato_learn.model.Lecturer;
 import semato.semato_learn.model.RoleName;
-import semato.semato_learn.model.Student;
 import semato.semato_learn.model.User;
 import semato.semato_learn.model.repository.UserBaseRepository;
 

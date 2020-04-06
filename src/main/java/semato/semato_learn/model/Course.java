@@ -8,8 +8,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 public class Course {
 

@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface GradeRepository extends JpaRepository<Grade, Long> {
 
-    Optional<Grade> findByStudentAndTaskAndTaskNumber(long studentId, long taskId, int taskNumber);
+    Optional<Grade> findByStudentIdAndTaskIdAndTaskNumber(long studentId, long taskId, int taskNumber);
 
 }
