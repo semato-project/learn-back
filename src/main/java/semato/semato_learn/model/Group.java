@@ -11,7 +11,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="groups")
+@Table
 public class Group {
 
     @Id
@@ -24,7 +24,7 @@ public class Group {
     @NonNull
     private String field;
 
-    private Date academicYear;
+    private String academicYear;
 
     @OneToMany(mappedBy = "group")
     private Set<Student> students;
