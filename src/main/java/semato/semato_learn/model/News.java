@@ -1,8 +1,12 @@
 package semato.semato_learn.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 
 @Getter
@@ -10,6 +14,10 @@ import java.util.Date;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
+@JsonIgnoreProperties(
+        value = {"createdAt", "updatedAt", "deletedAt"},
+        allowGetters = true
+)
 public class News {
 
     @Id
@@ -26,7 +34,11 @@ public class News {
     @NonNull
     private String description;
 
-    private Date createdDate = new Date();
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt;
 
-    private Date updateDate;
+    @LastModifiedDate
+    @Column(nullable = false)
+    private Instant updatedAt;
 }

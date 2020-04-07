@@ -16,7 +16,7 @@ public class ProjectGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "task_id")
     @NonNull
     private Task task;
