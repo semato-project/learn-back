@@ -11,7 +11,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table
+@Table(name="`group`")
 public class Group {
 
     @Id

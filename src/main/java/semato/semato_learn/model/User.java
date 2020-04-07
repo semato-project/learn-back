@@ -13,6 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
+@Table(name="`user`")
 public class User implements Serializable {
 
     @Id
