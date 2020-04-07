@@ -10,6 +10,8 @@ import java.util.Set;
 @Setter
 @RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name="`group`")
 public class Group {
