@@ -10,6 +10,7 @@ import semato.semato_learn.exception.EmailAlreadyInUse;
 import semato.semato_learn.model.*;
 import semato.semato_learn.model.repository.CourseRepository;
 import semato.semato_learn.model.repository.GroupRepository;
+import semato.semato_learn.model.repository.TaskRepository;
 import semato.semato_learn.model.repository.UserBaseRepository;
 
 @Service
@@ -17,6 +18,10 @@ public class CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
+
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Autowired
     private GroupRepository groupRepository;
@@ -29,6 +34,8 @@ public class CourseService {
         course.setName(courseRequest.getName());
         course.setDescription(courseRequest.getDescription());
 
+        courseRepository.save(course);
+
         for (TaskRequest taskRequest: courseRequest.getTaskList()) {
             Task task = new Task();
             task.setCourse(course);
@@ -36,9 +43,9 @@ public class CourseService {
             task.setQuantity(taskRequest.getQuantity());
             task.setMaxGroupQuantity(taskRequest.getMaxGroupQuantity());
             task.setTaskType(taskRequest.getTaskType());
+            taskRepository.save(task);
         }
 
-        courseRepository.save(course);
         courseRepository.flush();
 
     }

@@ -1,5 +1,6 @@
 package semato.semato_learn.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ public class CourseController {
 
     @Secured({"ROLE_LECTURER"})
     @PostMapping("/")
+    @ApiOperation(value = "Adding new course")
     public ResponseEntity add(@RequestBody CourseRequest courseRequest, @ApiIgnore @CurrentUser UserPrincipal currentUser) {
         try {
             courseService.add(courseRequest, currentUser.getUser());
