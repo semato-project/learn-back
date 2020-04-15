@@ -2,10 +2,9 @@ package semato.semato_learn.controller.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import semato.semato_learn.model.Group;
 
 import javax.validation.constraints.NotBlank;
-import java.util.LinkedList;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -19,5 +18,5 @@ public class CourseRequest {
 
     String description;
 
-    LinkedList<TaskRequest> taskList;
+    List<TaskRequest> taskList;
 }
