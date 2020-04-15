@@ -23,7 +23,7 @@ public class ProjectGroup {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "users_groups",
+            name = "student_project_group",
             joinColumns = {@JoinColumn(name = "project_group_id")},
             inverseJoinColumns = {@JoinColumn(name = "student_id")}
     )
