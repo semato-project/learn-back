@@ -2,7 +2,6 @@ package semato.semato_learn.controller.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import semato.semato_learn.model.Group;
 
 import javax.validation.constraints.NotBlank;
 import java.util.LinkedList;

@@ -1,11 +1,16 @@
 package semato.semato_learn.util.security;
 
 import io.jsonwebtoken.*;
+import lombok.Builder;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import semato.semato_learn.model.User;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Component
 public class JwtTokenProvider {
@@ -24,23 +29,25 @@ public class JwtTokenProvider {
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(Long.toString(userPrincipal.getId()))
+                .setSubject("semato-learn-project")
+                .claim("userJwtInfo", getUserJwtInfo(userPrincipal.getUser()))
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
-    public Long getUserIdFromJWT(String token) {
+    Long getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
 
-        return Long.parseLong(claims.getSubject());
+        Map<String, String> userJwtInfoMap = claims.get("userJwtInfo", Map.class);
+        return Long.parseLong(userJwtInfoMap.get("id"));
     }
 
-    public boolean validateToken(String authToken) {
+    boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
@@ -56,5 +63,25 @@ public class JwtTokenProvider {
             System.out.println("JWT claims string is empty.");
         }
         return false;
+    }
+
+    private UserJwtInfo getUserJwtInfo(User user) {
+        return UserJwtInfo.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .role(user.getRole().name())
+                .build();
+    }
+
+    @Builder
+    @Getter
+    private static final class UserJwtInfo {
+        private final Long id;
+        private final String email;
+        private final String firstName;
+        private final String lastName;
+        private final String role;
     }
 }
