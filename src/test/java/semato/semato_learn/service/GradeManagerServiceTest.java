@@ -48,7 +48,7 @@ public class GradeManagerServiceTest {
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
-    final int TASK_NUMBER = 0;
+    private final int TASK_NUMBER = 0;
 
     private Lecturer mockLecturer() {
         return Lecturer.builder()

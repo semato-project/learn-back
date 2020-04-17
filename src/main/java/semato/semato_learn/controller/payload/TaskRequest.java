@@ -5,7 +5,6 @@ import lombok.Getter;
 import semato.semato_learn.model.TaskType;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @AllArgsConstructor

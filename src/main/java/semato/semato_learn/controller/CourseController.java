@@ -31,4 +31,10 @@ public class CourseController {
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @Secured({"ROLE_LECTURER"})
+    @GetMapping("/getAll")
+    public ResponseEntity getAll(@ApiIgnore @CurrentUser UserPrincipal currentUser) {
+        return ResponseEntity.ok(courseService.getAll(currentUser.getId()));
+    }
 }
