@@ -44,7 +44,8 @@ public class JwtTokenProvider {
                 .getBody();
 
         Map<String, String> userJwtInfoMap = claims.get("userJwtInfo", Map.class);
-        return Long.parseLong(userJwtInfoMap.get("id"));
+        String userId = userJwtInfoMap.get("id");
+        return Long.parseLong(userId);
     }
 
     boolean validateToken(String authToken) {
@@ -67,7 +68,7 @@ public class JwtTokenProvider {
 
     private UserJwtInfo getUserJwtInfo(User user) {
         return UserJwtInfo.builder()
-                .id(user.getId())
+                .id(user.getId().toString())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
@@ -78,7 +79,7 @@ public class JwtTokenProvider {
     @Builder
     @Getter
     private static final class UserJwtInfo {
-        private final Long id;
+        private final String id;
         private final String email;
         private final String firstName;
         private final String lastName;

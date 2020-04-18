@@ -1,5 +1,7 @@
 package semato.semato_learn.controller.payload;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,17 +9,22 @@ import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor
 @Getter
+@ApiModel
 public class GradeRequest {
 
     @NotBlank
-    private long studentId;
+    @ApiModelProperty(example = "1")
+    Long studentId;
 
     @NotBlank
-    private long taskId;
+    @ApiModelProperty(example = "1")
+    Long taskId;
 
     @NotBlank
-    private int taskNumber;
+    @ApiModelProperty(example = "1")
+    int taskNumber;
 
     @NotBlank
-    private double grade;
+    @ApiModelProperty(example = "4.5")
+    double grade;
 }
