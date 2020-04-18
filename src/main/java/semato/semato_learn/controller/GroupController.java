@@ -15,13 +15,13 @@ public class GroupController {
     @Autowired
     private GroupService groupService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/")
     @Secured({"ROLE_LECTURER"})
     public ResponseEntity getAllGroups() {
         return ResponseEntity.ok(groupService.getAllGroups());
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     @Secured({"ROLE_LECTURER"})
     public ResponseEntity getGroupById(@PathVariable("id") Long groupId){
         try {

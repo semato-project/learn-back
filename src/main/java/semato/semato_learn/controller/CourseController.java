@@ -33,7 +33,7 @@ public class CourseController {
     }
 
     @Secured({"ROLE_LECTURER"})
-    @GetMapping("/getAll")
+    @GetMapping("/")
     public ResponseEntity getAll(@ApiIgnore @CurrentUser UserPrincipal currentUser) {
         return ResponseEntity.ok(courseService.getAll(currentUser.getId()));
     }

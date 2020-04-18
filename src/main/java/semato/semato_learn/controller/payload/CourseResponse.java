@@ -10,11 +10,11 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 public class CourseResponse {
-    long courseId;
+    private long courseId;
 
-    long lecturerId;
+    private long lecturerId;
 
-    long groupId;
+    private long groupId;
 
     private String name;
 

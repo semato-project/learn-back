@@ -1,5 +1,6 @@
 package semato.semato_learn.service;
 
+import lombok.val;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -58,28 +59,21 @@ public class GroupServiceTest {
 
     @Test
     public void shouldReturnGroup() {
-        groupRepository.save(Group.builder()
+        Group group = Group.builder()
                 .academicYear("I")
                 .faculty("WIEiK")
                 .field("Elektornika")
-                .build()
-        );
-        groupRepository.save(Group.builder()
-                .academicYear("I")
-                .faculty("WIEiK")
-                .field("Informatyka")
-                .build()
-        );
+                .build();
 
-        Group group = groupService.getGroup(1L);
-        assertEquals(1L, group.getId());
+        groupRepository.save(group);
+        assertEquals(group.getId(), groupService.getGroup(1L).getId());
     }
 
     @Test
     public void shouldThrowException() {
         exceptionRule.expect(IllegalArgumentException.class);
         exceptionRule.expectMessage("Group not found!");
-        Group group = groupService.getGroup(1L);
+        groupService.getGroup(1L);
     }
 
 

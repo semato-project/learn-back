@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import semato.semato_learn.controller.payload.GradeRequest;
 import semato.semato_learn.service.GradeManagerService;
 import semato.semato_learn.util.security.CurrentUser;
 import semato.semato_learn.util.security.UserPrincipal;
@@ -20,17 +21,14 @@ public class GradeController {
     @Autowired
     private GradeManagerService gradeManagerService;
 
-    @PutMapping("/add")
+    @PostMapping("/")
     @ApiOperation(value = "Endpoint to add grade for user to concrete task")
     @Secured({"ROLE_LECTURER"})
-    public ResponseEntity addGrade(@ApiParam(example = "1") @RequestParam long studentId,
-                                   @ApiParam(example = "1") @RequestParam long taskId,
-                                   @ApiParam(example = "1") @RequestParam int taskNumber,
-                                   @ApiParam(example = "4.5") @RequestParam double grade,
+    public ResponseEntity addGrade(@RequestBody GradeRequest gradeRequest,
                                    @ApiIgnore @CurrentUser UserPrincipal currentUser) {
 
         try {
-            gradeManagerService.addGrade(studentId, taskId, taskNumber, grade, currentUser.getId());
+            gradeManagerService.addGrade(gradeRequest.getStudentId(), gradeRequest.getTaskId(), gradeRequest.getTaskNumber(), gradeRequest.getGrade(), currentUser.getId());
         } catch (IllegalArgumentException exp) {
             return ResponseEntity.badRequest().body(exp.getMessage());
         }
@@ -38,16 +36,13 @@ public class GradeController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("/edit")
+    @PutMapping("/")
     @ApiOperation(value = "Endpoint to edit grade")
     @Secured({"ROLE_LECTURER"})
-    public ResponseEntity editGrade(@ApiParam(example = "1") @RequestParam long studentId,
-                                    @ApiParam(example = "1") @RequestParam long taskId,
-                                    @ApiParam(example = "1") @RequestParam int taskNumber,
-                                    @ApiParam(example = "4.5") @RequestParam double newGrade,
+    public ResponseEntity editGrade(@RequestBody GradeRequest gradeRequest,
                                     @ApiIgnore @CurrentUser UserPrincipal currentUser) {
         try {
-            gradeManagerService.editGrade(studentId, taskId, taskNumber, newGrade, currentUser.getId());
+            gradeManagerService.editGrade(gradeRequest.getStudentId(), gradeRequest.getTaskId(), gradeRequest.getTaskNumber(), gradeRequest.getGrade(), currentUser.getId());
         } catch (IllegalArgumentException exp) {
             return ResponseEntity.badRequest().body(exp.getMessage());
         }
