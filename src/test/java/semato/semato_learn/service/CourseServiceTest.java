@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CourseServiceTest {
 
     @Autowired
-    private UserBaseRepository<Lecturer> lecturerRepository;
+    private MockService mockService;
 
     @Autowired
     private CourseRepository courseRepository;
@@ -37,16 +37,6 @@ public class CourseServiceTest {
     private CourseService courseService;
 
 
-    private Lecturer mockLecturer() {
-        return Lecturer.builder()
-                .firstName("Karol")
-                .lastName("Krawczyk")
-                .password("tajnehaslo")
-                .role(RoleName.ROLE_LECTURER)
-                .email("karol.krawczyk@semato.pl")
-                .build();
-    }
-
     private TaskRequest mockTaskRequest(int quantity, Double markWage, TaskType taskType) {
         return new TaskRequest(taskType, quantity, markWage, 0);
     }
@@ -57,8 +47,8 @@ public class CourseServiceTest {
         Group group = new Group();
         groupRepository.save(group);
 
-        Lecturer lecturer = mockLecturer();
-        lecturerRepository.save(lecturer);
+        Lecturer lecturer = mockService.mockLecturer();
+
 
         List<TaskRequest> taskRequests = new ArrayList<>();
         taskRequests.add(mockTaskRequest(3, 1d, TaskType.LAB));
