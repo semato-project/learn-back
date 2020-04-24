@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import semato.semato_learn.controller.payload.CourseRequest;
 import semato.semato_learn.controller.payload.CourseResponse;
-import semato.semato_learn.controller.payload.CoursesResponse;
 import semato.semato_learn.controller.payload.TaskRequest;
 import semato.semato_learn.model.Course;
 import semato.semato_learn.model.Lecturer;
@@ -14,9 +13,9 @@ import semato.semato_learn.model.repository.CourseRepository;
 import semato.semato_learn.model.repository.GroupRepository;
 import semato.semato_learn.model.repository.TaskRepository;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -55,26 +54,12 @@ public class CourseService {
 
     }
 
-    public CoursesResponse getAll(Long id) {
+    public List<CourseResponse> getAll(Long id) {
         List<Course> courses = courseRepository.findAllByLecturerId(id).orElse(Collections.emptyList());
-        return new CoursesResponse(createCoursesResponse(courses));
+        return createCoursesResponse(courses);
     }
 
     private List<CourseResponse> createCoursesResponse(List<Course> courses) {
-        List<CourseResponse> courseResponses = new ArrayList<>();
-        for(Course course : courses){
-            courseResponses.add(CourseResponse.builder()
-                    .courseId(course.getId())
-                    .lecturerId(course.getLecturer().getId())
-                    .groupId(course.getGroup().getId())
-                    .name(course.getName())
-                    .description(course.getDescription())
-                    .courseId(course.getId())
-                    .createdAt(course.getCreatedAt())
-                    .updatedAt(course.getUpdatedAt())
-                    .build());
-
-        }
-        return courseResponses;
+        return courses.stream().map(CourseResponse::create).collect(Collectors.toList());
     }
 }

@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.*;
-import semato.semato_learn.model.Group;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import semato.semato_learn.service.GroupService;
 
 @RestController
@@ -25,8 +27,7 @@ public class GroupController {
     @Secured({"ROLE_LECTURER"})
     public ResponseEntity getGroupById(@PathVariable("id") Long groupId){
         try {
-            Group group = groupService.getGroup(groupId);
-            return ResponseEntity.ok(group);
+            return ResponseEntity.ok(groupService.getGroup(groupId));
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }

@@ -3,7 +3,6 @@ package semato.semato_learn.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Getter

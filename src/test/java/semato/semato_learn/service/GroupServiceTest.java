@@ -1,6 +1,5 @@
 package semato.semato_learn.service;
 
-import lombok.val;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import semato.semato_learn.SematoLearnApplication;
+import semato.semato_learn.controller.payload.GroupResponse;
 import semato.semato_learn.model.Group;
 import semato.semato_learn.model.repository.GroupRepository;
 
@@ -34,7 +34,7 @@ public class GroupServiceTest {
 
     @Test
     public void shouldReturnEmptyList() {
-        List<Group> allGroups = groupService.getAllGroups();
+        List<GroupResponse> allGroups = groupService.getAllGroups();
         assertTrue(allGroups.isEmpty());
     }
 
@@ -53,7 +53,7 @@ public class GroupServiceTest {
                 .build()
         );
 
-        List<Group> allGroups = groupService.getAllGroups();
+        List<GroupResponse> allGroups = groupService.getAllGroups();
         assertEquals(2, allGroups.size());
     }
 
