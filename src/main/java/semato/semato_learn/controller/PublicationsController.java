@@ -6,27 +6,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import semato.semato_learn.controller.payload.NewsRequest;
+import semato.semato_learn.controller.payload.PublicationRequest;
 import semato.semato_learn.model.RoleName;
-import semato.semato_learn.service.NewsService;
+import semato.semato_learn.service.PublicationService;
 import semato.semato_learn.util.security.CurrentUser;
 import semato.semato_learn.util.security.UserPrincipal;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@RequestMapping("/api/news")
-public class NewsController {
+@RequestMapping("/api/publication")
+public class PublicationsController {
 
     @Autowired
-    private NewsService newsService;
+    private PublicationService publicationService;
 
     @PutMapping("/")
     @Secured({"ROLE_LECTURER"})
-    @ApiOperation(value = "Endpoint to adding news by logged lecturer")
-    public ResponseEntity addNews(@ApiIgnore @CurrentUser UserPrincipal user,
-                                  @RequestBody NewsRequest newsRequest) {
+    @ApiOperation(value = "Endpoint to adding publication by logged lecturer")
+    public ResponseEntity addPublication(@ApiIgnore @CurrentUser UserPrincipal user,
+                                         @RequestBody PublicationRequest publicationRequest) {
         try {
-            newsService.add(newsRequest);
+            publicationService.add(publicationRequest);
             return ResponseEntity.ok(HttpStatus.CREATED);
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
@@ -35,12 +35,12 @@ public class NewsController {
 
     @PostMapping("/{id}")
     @Secured({"ROLE_LECTURER"})
-    @ApiOperation(value = "Endpoint to editing news by logged lecturer")
-    public ResponseEntity editNews(@ApiIgnore @CurrentUser UserPrincipal user,
-                                   @PathVariable("id") Long newsId,
-                                   @RequestBody NewsRequest newsRequest) {
+    @ApiOperation(value = "Endpoint to editing publication by logged lecturer")
+    public ResponseEntity editPublication(@ApiIgnore @CurrentUser UserPrincipal user,
+                                          @PathVariable("id") Long publicationId,
+                                          @RequestBody PublicationRequest publicationRequest) {
         try {
-            newsService.edit(newsRequest, newsId, user.getUser());
+            publicationService.edit(publicationRequest, publicationId, user.getUser());
             return ResponseEntity.ok(HttpStatus.CREATED);
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
@@ -49,11 +49,11 @@ public class NewsController {
 
     @DeleteMapping("/{id}")
     @Secured({"ROLE_LECTURER"})
-    @ApiOperation(value = "Endpoint to delete news managed by logged lecturer")
-    public ResponseEntity deleteNews(@ApiIgnore @CurrentUser UserPrincipal user,
-                                     @PathVariable("id") Long newsId) {
+    @ApiOperation(value = "Endpoint to delete publication managed by logged lecturer")
+    public ResponseEntity deletePublication(@ApiIgnore @CurrentUser UserPrincipal user,
+                                            @PathVariable("id") Long publicationId) {
         try {
-            newsService.delete(newsId, user.getUser());
+            publicationService.delete(publicationId, user.getUser());
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
@@ -61,14 +61,14 @@ public class NewsController {
     }
 
     @GetMapping("/")
-    @ApiOperation(value = "Endpoint to get news by logged user")
+    @ApiOperation(value = "Endpoint to get publications by logged user")
     public ResponseEntity getAllByUser(@ApiIgnore @CurrentUser UserPrincipal user) {
         if (user.getUser().getRole().equals(RoleName.ROLE_LECTURER)) {
-            return ResponseEntity.ok(newsService.getAllByLecturer(user.getUser()));
+            return ResponseEntity.ok(publicationService.getAllByLecturer(user.getUser()));
         }
         if (user.getUser().getRole().equals(RoleName.ROLE_STUDENT)) {
             try {
-                return ResponseEntity.ok(newsService.getAllByStudentGroup(user.getUser()));
+                return ResponseEntity.ok(publicationService.getAllByStudentGroup(user.getUser()));
             } catch (ClassCastException ex) {
                 return ResponseEntity.badRequest().body(ex.getMessage());
             }
@@ -79,10 +79,10 @@ public class NewsController {
 
     @GetMapping("/{id}")
     @Secured({"ROLE_LECTURER"})
-    @ApiOperation(value = "Endpoint to get news by id")
-    public ResponseEntity getByIdAndLecturer(@ApiIgnore @CurrentUser UserPrincipal user, @PathVariable("id") Long newsId) {
+    @ApiOperation(value = "Endpoint to get publication by id")
+    public ResponseEntity getByIdAndLecturer(@ApiIgnore @CurrentUser UserPrincipal user, @PathVariable("id") Long publicationId) {
         try {
-            return ResponseEntity.ok(newsService.getByIdAndLecturer(newsId, user.getUser()));
+            return ResponseEntity.ok(publicationService.getByIdAndLecturer(publicationId, user.getUser()));
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

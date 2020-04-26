@@ -9,12 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import semato.semato_learn.SematoLearnApplication;
 import semato.semato_learn.model.*;
-import semato.semato_learn.model.repository.*;
+import semato.semato_learn.model.repository.GradeRepository;
+import semato.semato_learn.model.repository.GroupRepository;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,14 +47,9 @@ public class GradeManagerServiceTest {
         Group group = new Group();
         Lecturer lecturer = mockService.mockLecturer();
         Course course = mockService.mockCourse(lecturer);
-
-        Set<Course> courses = new HashSet<>();
-        courses.add(course);
-        group.setCourses(courses);
-        lecturer.setCourses(courses);
-        groupRepository.save(group);
         Student student = mockService.mockStudent(group);
         Task task = mockService.mockTask(course);
+        groupRepository.save(group);
 
         //when
         gradeManagerService.addGrade(student.getId(), task.getId(), TASK_NUMBER, 5, lecturer.getId());
@@ -75,16 +69,9 @@ public class GradeManagerServiceTest {
         Group group = new Group();
         Lecturer lecturer = mockService.mockLecturer();
         Course course = mockService.mockCourse(lecturer);
-
-        Set<Course> courses = new HashSet<>();
-        courses.add(course);
-        group.setCourses(courses);
-        lecturer.setCourses(courses);
-        groupRepository.save(group);
-
-        Student student = mockService.mockStudent(group);
-
         Task task = mockService.mockTask(course);
+        Student student = mockService.mockStudent(group);
+        groupRepository.save(group);
 
         //when
         gradeManagerService.addGrade(student.getId(), task.getId(), TASK_NUMBER, 5, lecturer.getId());
@@ -99,12 +86,6 @@ public class GradeManagerServiceTest {
         //given
         Group group = new Group();
         Lecturer lecturer = mockService.mockLecturer();
-        Course course = mockService.mockCourse(lecturer);
-
-        Set<Course> courses = new HashSet<>();
-        courses.add(course);
-        group.setCourses(courses);
-        lecturer.setCourses(courses);
         groupRepository.save(group);
 
         Student student = mockService.mockStudent(group);
@@ -122,15 +103,9 @@ public class GradeManagerServiceTest {
         Group group = new Group();
         Lecturer lecturer = mockService.mockLecturer();
         Course course = mockService.mockCourse();
-
-        Set<Course> courses = new HashSet<>();
-        courses.add(course);
-        group.setCourses(courses);
-        groupRepository.save(group);
-
-        Student student = mockService.mockStudent(group);
-
         Task task = mockService.mockTask(course);
+        Student student = mockService.mockStudent(group);
+        groupRepository.save(group);
 
         //when
         gradeManagerService.addGrade(student.getId(), task.getId(), TASK_NUMBER, 5, lecturer.getId());
@@ -145,14 +120,8 @@ public class GradeManagerServiceTest {
         Group group = new Group();
         Lecturer lecturer = mockService.mockLecturer();
         Course course = mockService.mockCourse(lecturer);
-
-        Set<Course> courses = new HashSet<>();
-        courses.add(course);
-        group.setCourses(courses);
-        lecturer.setCourses(courses);
-        groupRepository.save(group);
-
         Task task = mockService.mockTask(course);
+        groupRepository.save(group);
 
         //when
         gradeManagerService.addGrade(0, task.getId(), TASK_NUMBER, 5, lecturer.getId());
@@ -167,16 +136,9 @@ public class GradeManagerServiceTest {
         Group group = new Group();
         Lecturer lecturer = mockService.mockLecturer();
         Course course = mockService.mockCourse(lecturer);
-
-        Set<Course> courses = new HashSet<>();
-        courses.add(course);
-        group.setCourses(courses);
-        lecturer.setCourses(courses);
-        groupRepository.save(group);
-
-        Student student = mockService.mockStudent(group);
-
         Task task = mockService.mockTask(course);
+        Student student = mockService.mockStudent(group);
+        groupRepository.save(group);
 
         //when
         gradeManagerService.addGrade(student.getId(), task.getId(), -1, 5, lecturer.getId());
@@ -191,16 +153,9 @@ public class GradeManagerServiceTest {
         Group group = new Group();
         Lecturer lecturer = mockService.mockLecturer();
         Course course = mockService.mockCourse(lecturer);
-
-        Set<Course> courses = new HashSet<>();
-        courses.add(course);
-        group.setCourses(courses);
-        lecturer.setCourses(courses);
-        groupRepository.save(group);
-
-        Student student = mockService.mockStudent(group);
-
         Task task = mockService.mockTask(course);
+        Student student = mockService.mockStudent(group);
+        groupRepository.save(group);
 
         //when
         gradeManagerService.addGrade(student.getId(), task.getId(), 4, 5, lecturer.getId());
@@ -213,16 +168,9 @@ public class GradeManagerServiceTest {
         Group group = new Group();
         Lecturer lecturer = mockService.mockLecturer();
         Course course = mockService.mockCourse(lecturer);
-
-        Set<Course> courses = new HashSet<>();
-        courses.add(course);
-        group.setCourses(courses);
-        lecturer.setCourses(courses);
-        groupRepository.save(group);
-
-        Student student = mockService.mockStudent(group);
-
         Task task = mockService.mockTask(course);
+        Student student = mockService.mockStudent(group);
+        groupRepository.save(group);
 
         Grade grade = mockService.mockGrade(task, TASK_NUMBER, student);
         gradeRepository.save(grade);

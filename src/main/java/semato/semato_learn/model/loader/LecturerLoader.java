@@ -27,8 +27,8 @@ public class LecturerLoader implements ApplicationRunner {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public static final String EMAIL = "profesordoktor@example.com";
-    public static final String PASSWORD = "qwerty";
+    static final String EMAIL = "profesordoktor@example.com";
+    static final String PASSWORD = "qwerty";
 
     @Override
     public void run(ApplicationArguments args) {

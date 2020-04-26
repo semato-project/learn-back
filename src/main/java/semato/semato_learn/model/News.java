@@ -44,4 +44,6 @@ public class News {
     @Builder.Default
     @Column(nullable = false)
     private Instant updatedAt = Instant.now();
+
+    private Instant deletedAt;
 }

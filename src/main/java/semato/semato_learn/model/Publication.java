@@ -10,8 +10,9 @@ import java.time.Instant;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @JsonIgnoreProperties(
         value = {"createdAt", "updatedAt", "deletedAt"},
@@ -35,10 +36,13 @@ public class Publication {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private Instant createdAt;
+    @Builder.Default
+    private Instant createdAt = Instant.now();
 
     @LastModifiedDate
     @Column(nullable = false)
-    private Instant updatedAt;
+    @Builder.Default
+    private Instant updatedAt = Instant.now();
 
+    private Instant deletedAt;
 }

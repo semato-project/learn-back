@@ -1,9 +1,12 @@
 package semato.semato_learn.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -12,6 +15,10 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
+@JsonIgnoreProperties(
+        value = {"createdAt", "updatedAt"},
+        allowGetters = true
+)
 public class Grade {
 
     @Id
@@ -33,5 +40,13 @@ public class Grade {
     @NonNull
     private Double gradeValue;
 
-    private Date writeDate = new Date();
+    @CreatedDate
+    @Builder.Default
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt = Instant.now();
+
+    @LastModifiedDate
+    @Builder.Default
+    @Column(nullable = false)
+    private Instant updatedAt = Instant.now();
 }

@@ -11,8 +11,6 @@ import semato.semato_learn.model.News;
 import semato.semato_learn.model.repository.UserBaseRepository;
 import semato.semato_learn.model.repository.NewsRepository;
 
-import java.time.Instant;
-
 @Component
 @Profile("!test")
 @Order(4)

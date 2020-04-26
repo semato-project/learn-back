@@ -12,6 +12,8 @@ import java.time.Instant;
 @Builder
 public class NewsResponse {
 
+    private Long id;
+
     private Long lecturerId;
 
     private String title;
@@ -24,6 +26,7 @@ public class NewsResponse {
 
     public static NewsResponse create(News news) {
         return NewsResponse.builder()
+                .id(news.getId())
                 .lecturerId(news.getLecturer().getId())
                 .title(news.getTitle())
                 .description(news.getDescription())

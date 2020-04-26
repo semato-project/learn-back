@@ -6,10 +6,12 @@ import semato.semato_learn.controller.payload.NewsRequest;
 import semato.semato_learn.controller.payload.NewsResponse;
 import semato.semato_learn.model.Lecturer;
 import semato.semato_learn.model.News;
+import semato.semato_learn.model.Student;
 import semato.semato_learn.model.User;
 import semato.semato_learn.model.repository.NewsRepository;
 import semato.semato_learn.model.repository.UserBaseRepository;
 
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,21 +30,19 @@ public class NewsService {
         return createNewsResponse(news);
     }
 
-    public NewsResponse getOneById(Long newsId, User user) throws IllegalArgumentException {
-        News news = newsRepository.findById(newsId).orElseThrow(() -> new IllegalArgumentException("News not found!"));
-        if (!news.getLecturer().getId().equals(user.getId())) {
-            throw new IllegalArgumentException("This is not manage by this Lecturer " + user.getId() + "!");
+    public NewsResponse getByIdAndLecturer(Long newsId, User user) throws IllegalArgumentException {
+        News news = getNews(newsId, user);
+        return NewsResponse.create(news);
+    }
+
+    public List<NewsResponse> getAllByStudentGroup(User user) {
+        if (user instanceof Student) {
+            Student student = (Student) user;
+            List<News> news = newsRepository.findAllByStudentGroup(student.getGroup().getId()).orElse(Collections.emptyList());
+            return createNewsResponse(news);
+        } else {
+            throw new ClassCastException("User isn't instanceof Student!");
         }
-        return NewsResponse.create(news);
-    }
-
-    public NewsResponse getById(Long newsId) {
-        News news = newsRepository.findById(newsId).orElseThrow(() -> new IllegalArgumentException("News not found!"));
-        return NewsResponse.create(news);
-    }
-
-    public List<NewsResponse> getAll() {
-        return createNewsResponse(newsRepository.findAll());
     }
 
     public News add(NewsRequest newsRequest) {
@@ -51,6 +51,29 @@ public class NewsService {
                 .title(newsRequest.getTitle())
                 .description(newsRequest.getDescription())
                 .build());
+    }
+
+    public News edit(NewsRequest newsRequest, Long newsId, User user) throws IllegalArgumentException {
+        News news = getNews(newsId, user);
+        news.setTitle(newsRequest.getTitle());
+        news.setDescription(newsRequest.getDescription());
+        news.setUpdatedAt(Instant.now());
+        newsRepository.save(news);
+        return news;
+    }
+
+    public void delete(Long newsId, User user) throws IllegalArgumentException {
+        News news = getNews(newsId, user);
+        news.setDeletedAt(Instant.now());
+        newsRepository.save(news);
+    }
+
+    private News getNews(Long newsId, User user) throws IllegalArgumentException {
+        News news = newsRepository.findById(newsId).orElseThrow(() -> new IllegalArgumentException("News not found!"));
+        if (!news.getLecturer().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("This is not manage by this Lecturer " + user.getId() + "!");
+        }
+        return news;
     }
 
     private List<NewsResponse> createNewsResponse(List<News> news) {

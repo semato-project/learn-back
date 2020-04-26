@@ -27,83 +27,78 @@ public class MockService {
     private GradeRepository gradeRepository;
 
     Lecturer mockLecturer() {
-        Lecturer lecturer = Lecturer.builder()
+        return lecturerRepository.save(Lecturer.builder()
                 .firstName("Karol")
                 .lastName("Krawczyk")
                 .password("tajnehaslo")
                 .role(RoleName.ROLE_LECTURER)
                 .email("karol.krawczyk@semato.pl")
-                .build();
-        lecturerRepository.save(lecturer);
-        return lecturer;
+                .build());
     }
 
     Lecturer mockLecturer(String email) {
-        Lecturer lecturer = Lecturer.builder()
+        return lecturerRepository.save(Lecturer.builder()
                 .firstName("Karol")
                 .lastName("Krawczyk")
                 .password("tajnehaslo")
                 .role(RoleName.ROLE_LECTURER)
                 .email(email)
-                .build();
-        lecturerRepository.save(lecturer);
-        return lecturer;
+                .build());
     }
 
     Course mockCourse(Lecturer lecturer) {
-        Course course = Course.builder()
+        return courseRepository.save(Course.builder()
                 .name("Kurs migowego")
                 .description("Wypasiony kurs migowego")
                 .lecturer(lecturer)
-                .build();
-        courseRepository.save(course);
-        return course;
+                .build());
     }
 
     Course mockCourse() {
-        Course course = Course.builder()
+        return courseRepository.save(Course.builder()
                 .name("Kurs migowego")
                 .description("Wypasiony kurs migowego")
-                .build();
-        courseRepository.save(course);
-        return course;
+                .build());
     }
 
     Student mockStudent(Group group) {
-        Student student = Student.builder()
+        return studentRepository.save(Student.builder()
                 .group(group)
                 .email("mikolajek@semato.com")
                 .password("tajneHaslo")
                 .firstName("Mikolajek")
                 .lastName("Klucznik")
                 .role(RoleName.ROLE_STUDENT)
-                .build();
-        studentRepository.save(student);
-        return student;
+                .build());
+    }
 
+    Student mockStudent(Group group, String email) {
+        return studentRepository.save(Student.builder()
+                .group(group)
+                .email(email)
+                .password("tajneHaslo")
+                .firstName("Mikolajek")
+                .lastName("Klucznik")
+                .role(RoleName.ROLE_STUDENT)
+                .build());
     }
 
 
     Task mockTask(Course course) {
-        Task task = Task.builder()
+        return taskRepository.save(Task.builder()
                 .course(course)
                 .quantity(3)
                 .markWage(1)
                 .taskType(TaskType.LAB)
-                .build();
-        taskRepository.save(task);
-        return task;
+                .build());
     }
 
-
     Grade mockGrade(Task task, int taskNumber, Student student) {
-        Grade grade = Grade.builder()
+        return gradeRepository.save(Grade.builder()
                 .task(task)
                 .taskNumber(taskNumber)
                 .student(student)
                 .gradeValue(5.0)
-                .build();
-        gradeRepository.save(grade);
-        return grade;
+                .build());
     }
 }
