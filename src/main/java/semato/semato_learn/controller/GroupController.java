@@ -1,5 +1,6 @@
 package semato.semato_learn.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,14 @@ public class GroupController {
 
     @GetMapping("/")
     @Secured({"ROLE_LECTURER"})
+    @ApiOperation(value = "Get all groups")
     public ResponseEntity getAllGroups() {
         return ResponseEntity.ok(groupService.getAllGroups());
     }
 
     @GetMapping("/{id}")
     @Secured({"ROLE_LECTURER"})
+    @ApiOperation(value = "Get groups by id")
     public ResponseEntity getGroupById(@PathVariable("id") Long groupId){
         try {
             return ResponseEntity.ok(groupService.getGroup(groupId));

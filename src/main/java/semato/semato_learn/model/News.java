@@ -11,8 +11,9 @@ import java.util.Date;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @JsonIgnoreProperties(
         value = {"createdAt", "updatedAt", "deletedAt"},
@@ -35,10 +36,14 @@ public class News {
     private String description;
 
     @CreatedDate
+    @Builder.Default
     @Column(nullable = false, updatable = false)
-    private Instant createdAt;
+    private Instant createdAt = Instant.now();
 
     @LastModifiedDate
+    @Builder.Default
     @Column(nullable = false)
-    private Instant updatedAt;
+    private Instant updatedAt = Instant.now();
+
+    private Instant deletedAt;
 }

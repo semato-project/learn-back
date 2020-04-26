@@ -28,10 +28,13 @@ public class Task {
     @OneToMany(mappedBy = "task")
     private Set<Grade> grades;
 
+    @Builder.Default
     private int quantity = 0;
 
+    @Builder.Default
     private double markWage = 0;
 
+    @Builder.Default
     private int maxGroupQuantity = 0;
 
     @Enumerated(EnumType.STRING)
