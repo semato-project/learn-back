@@ -30,7 +30,7 @@ public class NewsLoader implements ApplicationRunner {
                 .lecturer(lecturerUserBaseRepository.findByEmail(LecturerLoader.EMAIL).orElseThrow(RuntimeException::new))
                 .build());
         newsRepository.save(News.builder()
-                .title("Zajęcia odwolane!")
+                .title("Zajecia odwolane!")
                 .description("Zajecia odwolane do odwolania!")
                 .lecturer(lecturerUserBaseRepository.findByEmail(LecturerLoader.EMAIL).orElseThrow(RuntimeException::new))
                 .build());

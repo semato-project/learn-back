@@ -18,11 +18,11 @@ public class GradesAverageCounter {
                     .collect(Collectors.toSet());
 
             Double numerator = studentGradesList.stream()
-                    .mapToDouble(grade -> grade.getTask().getMarkWage() * grade.getGradeValue())
+                    .mapToDouble(grade -> grade.getTask().getMarkWeight() * grade.getGradeValue())
                     .sum();
 
             Double weightSum = studentGradesList.stream()
-                    .mapToDouble(grade -> grade.getTask().getMarkWage())
+                    .mapToDouble(grade -> grade.getTask().getMarkWeight())
                     .sum();
 
             return numerator / weightSum;

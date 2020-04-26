@@ -37,7 +37,6 @@ public class Grade {
 
     private Integer taskNumber;
 
-    @NonNull
     private Double gradeValue;
 
     @CreatedDate

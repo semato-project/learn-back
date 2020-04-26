@@ -32,7 +32,7 @@ public class Task {
     private int quantity = 0;
 
     @Builder.Default
-    private double markWage = 0;
+    private double markWeight = 0;
 
     @Builder.Default
     private int maxGroupQuantity = 0;

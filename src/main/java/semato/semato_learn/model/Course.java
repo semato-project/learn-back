@@ -36,7 +36,7 @@ public class Course implements Serializable {
     @JoinColumn(name="group_id")
     private Group group;
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Task> tasks;
 
     @NonNull

@@ -2,6 +2,7 @@ package semato.semato_learn.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -32,6 +33,7 @@ public class Publication {
     private String title;
 
     @NonNull
+    @Type(type="text")
     private String description;
 
     @CreatedDate

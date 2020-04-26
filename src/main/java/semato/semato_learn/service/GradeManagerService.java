@@ -2,14 +2,11 @@ package semato.semato_learn.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import semato.semato_learn.model.Grade;
-import semato.semato_learn.model.Lecturer;
-import semato.semato_learn.model.Student;
-import semato.semato_learn.model.Task;
+import semato.semato_learn.model.*;
 import semato.semato_learn.model.repository.GradeRepository;
 import semato.semato_learn.model.repository.TaskRepository;
 import semato.semato_learn.model.repository.UserBaseRepository;
-
+import java.util.LinkedList;
 import java.time.Instant;
 
 @Service
@@ -17,6 +14,9 @@ public class GradeManagerService {
 
     @Autowired
     private GradeRepository gradeRepository;
+
+    @Autowired
+    private CourseService courseService;
 
     @Autowired
     private UserBaseRepository<Student> studentRepository;
@@ -67,4 +67,64 @@ public class GradeManagerService {
 
         gradeRepository.save(gradeToUpdate);
     }
+
+    public void updateOrCreate(Student student, Task task, int taskNumber, double gradeValue) {
+        Grade grade = findOrCreate(student, task, taskNumber);
+        grade.setGradeValue(gradeValue);
+        gradeRepository.save(grade);
+    }
+
+    public void update(long gradeId, double gradeValue, Lecturer currentUser) {
+        Grade grade = gradeRepository.findById(gradeId)
+                .orElseThrow(() -> new IllegalArgumentException("Grade not found!"));
+
+        if (! courseService.validateOwnership(currentUser, grade.getTask().getCourse())) {
+            throw new RuntimeException(String.format("Lecturer id: %d is not owner of course id: %d", currentUser.getId(), grade.getTask().getCourse().getId()));
+        }
+        grade.setGradeValue(gradeValue);
+        gradeRepository.save(grade);
+    }
+
+    public LinkedList<Grade> getStudentGradesForCourse(Student student, Course course) {
+        LinkedList<Grade> gradeList = new LinkedList<Grade>();
+        for (Task task: course.getTasks()) {
+            gradeList.addAll(getStudentGradesForTask(student, task));
+        }
+        return gradeList;
+    }
+
+    public LinkedList<Grade> getStudentGradesForTask(Student student, Task task) {
+        LinkedList<Grade> gradeList = new LinkedList<Grade>();
+        for (int taskNumber = 1; taskNumber <= task.getQuantity(); taskNumber++ ) {
+            gradeList.add(findOrCreate(student, task, taskNumber));
+        }
+        return gradeList;
+    }
+
+    public Grade findOrCreate(Student student, Task task, int taskNumber) {
+        if (! courseService.validateMembership(student, task.getCourse())) {
+            throw new RuntimeException(String.format("Student id: %d is not member of course id: %d", student.getId(), task.getCourse().getId()));
+        }
+
+        if(taskNumber < 1 || task.getQuantity() < taskNumber){
+            throw new IllegalArgumentException("Task number is incorrect. Max task number is: " + task.getQuantity());
+        }
+        Grade grade = gradeRepository.findByStudentIdAndTaskIdAndTaskNumber(student.getId(), task.getId(), taskNumber)
+                .orElse(null);
+        if (grade == null) {
+            grade = Grade.builder()
+                    .student(student)
+                    .task(task)
+                    .taskNumber(taskNumber)
+                    .build();
+            gradeRepository.save(grade);
+        }
+        return grade;
+    }
+
+
+
+
+
+
 }

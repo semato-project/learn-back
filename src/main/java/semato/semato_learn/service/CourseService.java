@@ -4,17 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import semato.semato_learn.controller.payload.CourseRequest;
 import semato.semato_learn.controller.payload.CourseResponse;
+import semato.semato_learn.controller.payload.CourseExtendedResponse;
 import semato.semato_learn.controller.payload.TaskRequest;
-import semato.semato_learn.model.Course;
-import semato.semato_learn.model.Lecturer;
-import semato.semato_learn.model.Task;
-import semato.semato_learn.model.User;
+import semato.semato_learn.exception.InvalidGranAuthority;
+import semato.semato_learn.model.*;
 import semato.semato_learn.model.repository.CourseRepository;
 import semato.semato_learn.model.repository.GroupRepository;
 import semato.semato_learn.model.repository.TaskRepository;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,12 +21,14 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-
     @Autowired
     private TaskRepository taskRepository;
 
     @Autowired
     private GroupRepository groupRepository;
+
+    @Autowired
+    private GradeManagerService gradeManagerService;
 
     public void add(CourseRequest courseRequest, User user) {
 
@@ -43,7 +43,7 @@ public class CourseService {
         for (TaskRequest taskRequest: courseRequest.getTaskList()) {
             Task task = new Task();
             task.setCourse(course);
-            task.setMarkWage(taskRequest.getMarkWage());
+            task.setMarkWeight(taskRequest.getMarkWeight());
             task.setQuantity(taskRequest.getQuantity());
             task.setMaxGroupQuantity(taskRequest.getMaxGroupQuantity());
             task.setTaskType(taskRequest.getTaskType());
@@ -62,4 +62,38 @@ public class CourseService {
     private List<CourseResponse> createCoursesResponse(List<Course> courses) {
         return courses.stream().map(CourseResponse::create).collect(Collectors.toList());
     }
+
+    public CourseExtendedResponse getExtended(Long courseId, User user) {
+
+        Course course = courseRepository.getOne(courseId);
+        Set<Student> studentList = new HashSet<>();
+
+        if (user.getRole() == RoleName.ROLE_LECTURER) {
+            if (! validateOwnership((Lecturer) user, course)) {
+                throw new RuntimeException(String.format("Lecturer id: %d is not owner of course id: %d", user.getId(), course));
+            }
+            studentList = course.getGroup().getStudents();
+        } else if (user.getRole() == RoleName.ROLE_STUDENT) {
+            if (! validateMembership((Student) user, course)) {
+                throw new RuntimeException(String.format("Student id: %d is not member of course id: %d", user.getId(), course.getId()));
+            }
+            studentList.add((Student) user);
+
+        } else {
+            throw new InvalidGranAuthority();
+        }
+        CourseExtendedResponse courseExtendedResponse = new CourseExtendedResponse(course, studentList, gradeManagerService);
+        return courseExtendedResponse;
+    }
+
+    public boolean validateMembership(Student student, Course course) {
+        return student.getGroup().getId() == course.getGroup().getId();
+    }
+
+
+    public boolean validateOwnership(Lecturer lecturer, Course course) {
+        return course.getLecturer().getId() == lecturer.getId();
+    }
+
+
 }

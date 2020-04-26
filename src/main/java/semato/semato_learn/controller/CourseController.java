@@ -38,4 +38,12 @@ public class CourseController {
     public ResponseEntity getAll(@ApiIgnore @CurrentUser UserPrincipal currentUser) {
         return ResponseEntity.ok(courseService.getAll(currentUser.getId()));
     }
+
+
+    @GetMapping("/{id}")
+    @Secured({"ROLE_LECTURER", "ROLE_STUDENT"})
+    public ResponseEntity getExtended(@PathVariable("id") Long courseId, @ApiIgnore @CurrentUser UserPrincipal currentUser){
+        return ResponseEntity.ok(courseService.getExtended(courseId, currentUser.getUser()));
+    }
+
 }
