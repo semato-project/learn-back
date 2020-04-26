@@ -18,6 +18,10 @@ public class CourseExtendedResponse {
 
     private String name;
 
+    private String description;
+
+    private GroupResponse group;
+
     private LinkedList<TaskResponse> taskList = new LinkedList<TaskResponse>();
 
     private LinkedList<CourseParticipantResponse> participantList = new LinkedList<CourseParticipantResponse>();
@@ -25,6 +29,11 @@ public class CourseExtendedResponse {
     public CourseExtendedResponse(Course course, Set<Student> studentList, GradeManagerService gradeManagerService) {
         courseId = course.getId();
         name = course.getName();
+        description = course.getDescription();
+        group = GroupResponse.create(course.getGroup());
+        group.setStudentIds(null);
+        group.setCourseIds(null);
+
         for (Task task: course.getTasks()) {
             taskList.add(new TaskResponse(task));
         }
