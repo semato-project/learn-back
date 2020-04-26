@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import semato.semato_learn.model.Course;
 import semato.semato_learn.model.Student;
+import semato.semato_learn.model.Task;
+import semato.semato_learn.service.GradeManagerService;
 
 import java.util.LinkedList;
 import java.util.Set;
@@ -16,13 +18,18 @@ public class CourseExtendedResponse {
 
     private String name;
 
-    private LinkedList<CourseParticipantResponse> courseParticipantResponseList = new LinkedList<CourseParticipantResponse>();
+    private LinkedList<TaskResponse> taskList = new LinkedList<TaskResponse>();
 
-    public CourseExtendedResponse(Course course, Set<Student> studentList) {
+    private LinkedList<CourseParticipantResponse> participantList = new LinkedList<CourseParticipantResponse>();
+
+    public CourseExtendedResponse(Course course, Set<Student> studentList, GradeManagerService gradeManagerService) {
         courseId = course.getId();
         name = course.getName();
+        for (Task task: course.getTasks()) {
+            taskList.add(new TaskResponse(task));
+        }
         for (Student student: studentList) {
-            courseParticipantResponseList.add(new CourseParticipantResponse(student, course));
+            participantList.add(new CourseParticipantResponse(student, course, gradeManagerService));
         }
     }
 }

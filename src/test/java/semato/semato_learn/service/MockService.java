@@ -88,7 +88,7 @@ public class MockService {
         return taskRepository.save(Task.builder()
                 .course(course)
                 .quantity(3)
-                .markWage(1)
+                .markWeight(1)
                 .taskType(TaskType.LAB)
                 .build());
     }

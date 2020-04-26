@@ -37,8 +37,8 @@ public class CourseServiceTest {
     private CourseService courseService;
 
 
-    private TaskRequest mockTaskRequest(int quantity, Double markWage, TaskType taskType) {
-        return new TaskRequest(taskType, quantity, markWage, 0);
+    private TaskRequest mockTaskRequest(int quantity, Double markWeight, TaskType taskType) {
+        return new TaskRequest(taskType, quantity, markWeight, 0);
     }
 
     @Test

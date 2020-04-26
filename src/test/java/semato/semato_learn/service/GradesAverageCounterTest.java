@@ -49,7 +49,7 @@ public class GradesAverageCounterTest {
         Task task1 = Task.builder()
                 .course(course)
                 .quantity(3)
-                .markWage(1)
+                .markWeight(1)
                 .taskType(TaskType.LAB)
                 .build();
         taskRepository.save(task1);
@@ -57,7 +57,7 @@ public class GradesAverageCounterTest {
         Task task2 = Task.builder()
                 .course(course)
                 .quantity(1)
-                .markWage(2)
+                .markWeight(2)
                 .taskType(TaskType.PROJECT)
                 .build();
         taskRepository.save(task2);
@@ -84,7 +84,7 @@ public class GradesAverageCounterTest {
         Task task1 = Task.builder()
                 .course(course)
                 .quantity(3)
-                .markWage(1)
+                .markWeight(1)
                 .taskType(TaskType.LAB)
                 .build();
         taskRepository.save(task1);
@@ -92,7 +92,7 @@ public class GradesAverageCounterTest {
         Task task2 = Task.builder()
                 .course(course)
                 .quantity(1)
-                .markWage(2)
+                .markWeight(2)
                 .taskType(TaskType.PROJECT)
                 .build();
         taskRepository.save(task2);
@@ -116,7 +116,7 @@ public class GradesAverageCounterTest {
         Task task1 = Task.builder()
                 .course(course1)
                 .quantity(3)
-                .markWage(1)
+                .markWeight(1)
                 .taskType(TaskType.LAB)
                 .build();
         taskRepository.save(task1);
@@ -124,7 +124,7 @@ public class GradesAverageCounterTest {
         Task task2 = Task.builder()
                 .course(course1)
                 .quantity(1)
-                .markWage(2)
+                .markWeight(2)
                 .taskType(TaskType.PROJECT)
                 .build();
         taskRepository.save(task2);
@@ -132,7 +132,7 @@ public class GradesAverageCounterTest {
         Task task3 = Task.builder()
                 .course(course2)
                 .quantity(2)
-                .markWage(2)
+                .markWeight(2)
                 .taskType(TaskType.LAB)
                 .build();
         taskRepository.save(task3);

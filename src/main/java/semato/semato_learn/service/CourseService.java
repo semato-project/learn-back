@@ -21,12 +21,14 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-
     @Autowired
     private TaskRepository taskRepository;
 
     @Autowired
     private GroupRepository groupRepository;
+
+    @Autowired
+    private GradeManagerService gradeManagerService;
 
     public void add(CourseRequest courseRequest, User user) {
 
@@ -41,7 +43,7 @@ public class CourseService {
         for (TaskRequest taskRequest: courseRequest.getTaskList()) {
             Task task = new Task();
             task.setCourse(course);
-            task.setMarkWage(taskRequest.getMarkWage());
+            task.setMarkWeight(taskRequest.getMarkWeight());
             task.setQuantity(taskRequest.getQuantity());
             task.setMaxGroupQuantity(taskRequest.getMaxGroupQuantity());
             task.setTaskType(taskRequest.getTaskType());
@@ -80,11 +82,8 @@ public class CourseService {
         } else {
             throw new InvalidGranAuthority();
         }
-
-        CourseExtendedResponse courseExtendedResponse = new CourseExtendedResponse(course, studentList);
-
+        CourseExtendedResponse courseExtendedResponse = new CourseExtendedResponse(course, studentList, gradeManagerService);
         return courseExtendedResponse;
-
     }
 
     public boolean validateMembership(Student student, Course course) {

@@ -41,36 +41,36 @@ public class CourseLoader implements ApplicationRunner {
                 .lecturer(lecturerRepository.findById(1L).orElseThrow(RuntimeException::new))
                 .build();
 
-        course.setTasks(createTask(course));
+        course.setTasks(createTasks(course));
         courseRepository.save(course);
     }
 
 
-    private Set<Task> createTask(Course course) {
+    private Set<Task> createTasks(Course course) {
         Set<Task> tasks = new HashSet<>();
         tasks.add(Task.builder()
                 .course(course)
                 .quantity(3)
-                .markWage(3)
+                .markWeight(3)
                 .taskType(TaskType.LAB)
                 .build());
         tasks.add(Task.builder()
                 .course(course)
                 .quantity(3)
-                .markWage(3)
+                .markWeight(3)
                 .taskType(TaskType.DISCUSSIONS)
                 .build());
         tasks.add(Task.builder()
                 .course(course)
                 .quantity(3)
-                .markWage(3)
+                .markWeight(3)
                 .maxGroupQuantity(3)
                 .taskType(TaskType.PROJECT)
                 .build());
         tasks.add(Task.builder()
                 .course(course)
                 .quantity(1)
-                .markWage(5)
+                .markWeight(5)
                 .maxGroupQuantity(0)
                 .taskType(TaskType.EXAM)
                 .build());

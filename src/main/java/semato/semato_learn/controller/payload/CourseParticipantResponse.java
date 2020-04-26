@@ -1,9 +1,5 @@
 package semato.semato_learn.controller.payload;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import semato.semato_learn.model.Course;
 import semato.semato_learn.model.Grade;
 import semato.semato_learn.model.Student;
@@ -19,10 +15,8 @@ public class CourseParticipantResponse {
     private String lastName;
     private LinkedList<GradeResponse> gradeList = new LinkedList<>();
 
-    @Autowired
-    private GradeManagerService gradeManagerService;
+    public CourseParticipantResponse (Student student, Course course, GradeManagerService gradeManagerService) {
 
-    public CourseParticipantResponse (Student student, Course course) {
         firstName = student.getFirstName();
         lastName = student.getLastName();
         studentId = student.getId();

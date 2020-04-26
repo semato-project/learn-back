@@ -18,7 +18,7 @@ public class TaskRequest {
     int quantity;
 
     @NotBlank
-    Double markWage;
+    Double markWeight;
 
     int maxGroupQuantity;
 }
