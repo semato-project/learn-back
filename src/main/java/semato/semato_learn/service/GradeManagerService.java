@@ -6,9 +6,8 @@ import semato.semato_learn.model.*;
 import semato.semato_learn.model.repository.GradeRepository;
 import semato.semato_learn.model.repository.TaskRepository;
 import semato.semato_learn.model.repository.UserBaseRepository;
-
-import java.util.Date;
 import java.util.LinkedList;
+import java.time.Instant;
 
 @Service
 public class GradeManagerService {
@@ -28,7 +27,7 @@ public class GradeManagerService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public void addGrade(long studentId, long taskId, int taskNumber, double grade, Long lecturerId) throws IllegalArgumentException {
+    public Grade addGrade(long studentId, long taskId, int taskNumber, double grade, Long lecturerId) throws IllegalArgumentException {
 
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new IllegalArgumentException("Task not found!"));
@@ -46,7 +45,7 @@ public class GradeManagerService {
             throw new IllegalArgumentException("Task number is incorrect. Max task number is: " + task.getQuantity());
         }
 
-        gradeRepository.save(Grade.builder()
+        return gradeRepository.save(Grade.builder()
                 .gradeValue(grade)
                 .student(student)
                 .task(task)
@@ -64,7 +63,7 @@ public class GradeManagerService {
                 .orElseThrow(() -> new IllegalArgumentException("Grade not found!"));
 
         gradeToUpdate.setGradeValue(grade);
-        gradeToUpdate.setWriteDate(new Date());
+        gradeToUpdate.setUpdatedAt(Instant.now());
 
         gradeRepository.save(gradeToUpdate);
     }

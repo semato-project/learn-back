@@ -12,6 +12,7 @@ import semato.semato_learn.model.Task;
 import semato.semato_learn.model.TaskType;
 import semato.semato_learn.model.repository.CourseRepository;
 import semato.semato_learn.model.repository.GroupRepository;
+import semato.semato_learn.model.repository.TaskRepository;
 import semato.semato_learn.model.repository.UserBaseRepository;
 
 import java.util.HashSet;
@@ -42,7 +43,6 @@ public class CourseLoader implements ApplicationRunner {
 
         course.setTasks(createTask(course));
         courseRepository.save(course);
-
     }
 
 
@@ -69,12 +69,11 @@ public class CourseLoader implements ApplicationRunner {
                 .build());
         tasks.add(Task.builder()
                 .course(course)
-                .quantity(0)
+                .quantity(1)
                 .markWage(5)
                 .maxGroupQuantity(0)
                 .taskType(TaskType.EXAM)
                 .build());
-
         return tasks;
     }
 }

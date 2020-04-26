@@ -34,6 +34,7 @@ public class CourseController {
 
     @Secured({"ROLE_LECTURER"})
     @GetMapping("/")
+    @ApiOperation(value = "Get all courses")
     public ResponseEntity getAll(@ApiIgnore @CurrentUser UserPrincipal currentUser) {
         return ResponseEntity.ok(courseService.getAll(currentUser.getId()));
     }

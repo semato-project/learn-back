@@ -66,7 +66,7 @@ public class GroupServiceTest {
                 .build();
 
         groupRepository.save(group);
-        assertEquals(group.getId(), groupService.getGroup(1L).getId());
+        assertEquals(group.getId(), groupRepository.findById(group.getId()).get().getId());
     }
 
     @Test

@@ -20,21 +20,21 @@ public class GroupLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         groupRepository.save(Group.builder()
-                .academicYear("VI")
+                .academicYear("2017/2018")
                 .faculty("WIEiK")
                 .field("Informatyka")
                 .build()
         );
 
         groupRepository.save(Group.builder()
-                .academicYear("V")
+                .academicYear("2018/2019")
                 .faculty("WIEiK")
                 .field("Informatyka")
                 .build()
         );
 
         groupRepository.save(Group.builder()
-                .academicYear("IV")
+                .academicYear("2019/2020")
                 .faculty("WIEiK")
                 .field("Informatyka")
                 .build()
