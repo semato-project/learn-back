@@ -87,8 +87,12 @@ public class GradeManagerService {
 
     public LinkedList<Grade> getStudentGradesForCourse(Student student, Course course) {
         LinkedList<Grade> gradeList = new LinkedList<Grade>();
-        for (Task task: course.getTasks()) {
-            gradeList.addAll(getStudentGradesForTask(student, task));
+        for (TaskType taskType: TaskType.values()) {
+            for (Task task: course.getTasks()) {
+                if (task.getTaskType() == taskType) {
+                    gradeList.addAll(getStudentGradesForTask(student, task));
+                }
+            }
         }
         return gradeList;
     }
