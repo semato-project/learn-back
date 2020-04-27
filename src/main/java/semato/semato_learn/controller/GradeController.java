@@ -22,13 +22,13 @@ public class GradeController {
     @Autowired
     private GradeManagerService gradeManagerService;
 
-    @PutMapping("/")
+    @PutMapping("/{id}")
     @ApiOperation(value = "Endpoint to edit grade")
     @Secured({"ROLE_LECTURER"})
-    public ResponseEntity editGrade(@RequestBody GradeRequest gradeRequest,
+    public ResponseEntity editGrade(@PathVariable("id") Long id, @RequestBody GradeRequest gradeRequest,
                                     @ApiIgnore @CurrentUser UserPrincipal currentUser) {
         try {
-            gradeManagerService.update(gradeRequest.getId(), gradeRequest.getGrade(), (Lecturer) currentUser.getUser());
+            gradeManagerService.update(id, gradeRequest.getGrade(), (Lecturer) currentUser.getUser());
         } catch (IllegalArgumentException exp) {
             return ResponseEntity.badRequest().body(exp.getMessage());
         }

@@ -9,7 +9,6 @@ import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor
 @Getter
-@ApiModel
 public class GradeRequest {
 
     @NotBlank
