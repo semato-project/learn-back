@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import semato.semato_learn.model.Course;
 import semato.semato_learn.model.Student;
 import semato.semato_learn.model.Task;
+import semato.semato_learn.model.TaskType;
 import semato.semato_learn.service.GradeManagerService;
 
 import java.util.LinkedList;
@@ -34,9 +35,14 @@ public class CourseExtendedResponse {
         group.setStudentIds(null);
         group.setCourseIds(null);
 
-        for (Task task: course.getTasks()) {
-            taskList.add(new TaskResponse(task));
+        for (TaskType taskType: TaskType.values()) {
+            for (Task task: course.getTasks()) {
+                if (task.getTaskType() == taskType) {
+                    taskList.add(new TaskResponse(task));
+                }
+            }
         }
+
         for (Student student: studentList) {
             participantList.add(new CourseParticipantResponse(student, course, gradeManagerService));
         }

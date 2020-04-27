@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import semato.semato_learn.controller.payload.GradeRequest;
+import semato.semato_learn.model.Lecturer;
 import semato.semato_learn.service.GradeManagerService;
 import semato.semato_learn.util.security.CurrentUser;
 import semato.semato_learn.util.security.UserPrincipal;
@@ -21,32 +22,16 @@ public class GradeController {
     @Autowired
     private GradeManagerService gradeManagerService;
 
-    @PostMapping("/")
-    @ApiOperation(value = "Endpoint to add grade for user to concrete task")
-    @Secured({"ROLE_LECTURER"})
-    public ResponseEntity addGrade(@RequestBody GradeRequest gradeRequest,
-                                   @ApiIgnore @CurrentUser UserPrincipal currentUser) {
-
-        try {
-            gradeManagerService.addGrade(gradeRequest.getStudentId(), gradeRequest.getTaskId(), gradeRequest.getTaskNumber(), gradeRequest.getGrade(), currentUser.getId());
-        } catch (IllegalArgumentException exp) {
-            return ResponseEntity.badRequest().body(exp.getMessage());
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
     @PutMapping("/")
     @ApiOperation(value = "Endpoint to edit grade")
     @Secured({"ROLE_LECTURER"})
     public ResponseEntity editGrade(@RequestBody GradeRequest gradeRequest,
                                     @ApiIgnore @CurrentUser UserPrincipal currentUser) {
         try {
-            gradeManagerService.editGrade(gradeRequest.getStudentId(), gradeRequest.getTaskId(), gradeRequest.getTaskNumber(), gradeRequest.getGrade(), currentUser.getId());
+            gradeManagerService.update(gradeRequest.getId(), gradeRequest.getGrade(), (Lecturer) currentUser.getUser());
         } catch (IllegalArgumentException exp) {
             return ResponseEntity.badRequest().body(exp.getMessage());
         }
-
         return ResponseEntity.ok().build();
     }
 }

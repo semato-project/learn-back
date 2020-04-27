@@ -14,15 +14,7 @@ public class GradeRequest {
 
     @NotBlank
     @ApiModelProperty(example = "1")
-    Long studentId;
-
-    @NotBlank
-    @ApiModelProperty(example = "1")
-    Long taskId;
-
-    @NotBlank
-    @ApiModelProperty(example = "1")
-    int taskNumber;
+    Long id;
 
     @NotBlank
     @ApiModelProperty(example = "4.5")
