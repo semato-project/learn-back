@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import semato.semato_learn.controller.payload.NewsRequest;
+import semato.semato_learn.controller.payload.NewsCreateRequest;
+import semato.semato_learn.controller.payload.NewsEditRequest;
+import semato.semato_learn.controller.payload.NewsResponse;
+import semato.semato_learn.model.News;
 import semato.semato_learn.model.RoleName;
 import semato.semato_learn.service.NewsService;
 import semato.semato_learn.util.security.CurrentUser;
@@ -20,28 +23,28 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @PutMapping("/")
+    @PostMapping("/")
     @Secured({"ROLE_LECTURER"})
     @ApiOperation(value = "Endpoint to adding news by logged lecturer")
     public ResponseEntity addNews(@ApiIgnore @CurrentUser UserPrincipal user,
-                                  @RequestBody NewsRequest newsRequest) {
+                                  @RequestBody NewsCreateRequest newsCreateRequest) {
         try {
-            newsService.add(newsRequest);
-            return ResponseEntity.ok(HttpStatus.CREATED);
+            NewsResponse news = newsService.add(newsCreateRequest, user.getUser());
+            return ResponseEntity.status(HttpStatus.CREATED).body(news);
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     @Secured({"ROLE_LECTURER"})
     @ApiOperation(value = "Endpoint to editing news by logged lecturer")
     public ResponseEntity editNews(@ApiIgnore @CurrentUser UserPrincipal user,
                                    @PathVariable("id") Long newsId,
-                                   @RequestBody NewsRequest newsRequest) {
+                                   @RequestBody NewsEditRequest newsEditRequest) {
         try {
-            newsService.edit(newsRequest, newsId, user.getUser());
-            return ResponseEntity.ok(HttpStatus.CREATED);
+            newsService.edit(newsEditRequest, newsId, user.getUser());
+            return ResponseEntity.ok().build();
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

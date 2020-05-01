@@ -14,7 +14,9 @@ public class PublicationResponse {
 
     private Long id;
 
-    private Long lecturerId;
+    private String lecturerFirstName;
+
+    private String lecturerLastName;
 
     private String title;
 
@@ -30,7 +32,8 @@ public class PublicationResponse {
     public static PublicationResponse create(Publication publication) {
         return PublicationResponse.builder()
                 .id(publication.getId())
-                .lecturerId(publication.getLecturer().getId())
+                .lecturerFirstName(publication.getLecturer().getFirstName())
+                .lecturerLastName(publication.getLecturer().getLastName())
                 .title(publication.getTitle())
                 .description(publication.getDescription())
                 .createdAt(publication.getCreatedAt())

@@ -10,11 +10,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Getter
 @ApiModel
-public class PublicationRequest {
-
-    @NotBlank
-    @ApiModelProperty(example = "1")
-    private Long lecturerId;
+public class PublicationCreateRequest {
 
     @NotBlank
     @ApiModelProperty(example = "Jaki 5G ma na nas wpływ...")

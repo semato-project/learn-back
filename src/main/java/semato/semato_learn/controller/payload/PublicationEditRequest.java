@@ -10,18 +10,12 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Getter
 @ApiModel
-public class NewsRequest {
+public class PublicationEditRequest {
 
-    @NotBlank
-    @ApiModelProperty(example = "1")
-    private Long lecturerId;
-
-    @NotBlank
-    @ApiModelProperty(example = "Zagrożenie III stopnia")
+    @ApiModelProperty(example = "Jaki 5G ma na nas wpływ...")
     private String title;
 
-    @NotBlank
-    @ApiModelProperty(example = "Zagrożenie dotyczy...")
+    @ApiModelProperty(example = "Opis publikacji")
     private String description;
 
 }

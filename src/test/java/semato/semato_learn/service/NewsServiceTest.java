@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import semato.semato_learn.SematoLearnApplication;
-import semato.semato_learn.controller.payload.NewsRequest;
+import semato.semato_learn.controller.payload.NewsCreateRequest;
+import semato.semato_learn.controller.payload.NewsEditRequest;
 import semato.semato_learn.controller.payload.NewsResponse;
 import semato.semato_learn.model.*;
 import semato.semato_learn.model.repository.GroupRepository;
@@ -137,10 +138,10 @@ public class NewsServiceTest {
     public void whenAdd_givenNewsRequest_thenSaveNews() {
         //given
         Lecturer lecturer1 = mockService.mockLecturer();
-        NewsRequest newsRequest = new NewsRequest(lecturer1.getId(), "Title", "Description");
+        NewsCreateRequest newsCreateRequest = new NewsCreateRequest("Title", "Description");
 
         //when
-        News news = newsService.add(newsRequest);
+        NewsResponse news = newsService.add(newsCreateRequest, lecturer1);
 
         //then
         assertTrue(newsRepository.findById(news.getId()).isPresent());
@@ -168,7 +169,7 @@ public class NewsServiceTest {
     public void whenEdit_givenNewsIdAndNewsRequest_thenUpdateNews() {
         //given
         Lecturer lecturer1 = mockService.mockLecturer();
-        NewsRequest newsRequest = new NewsRequest(lecturer1.getId(), "Title", "Description");
+        NewsEditRequest newsEditRequest = new NewsEditRequest("Title", "Description");
         News news = newsRepository.save(News.builder()
                 .title("Koronawirus!")
                 .description("Z powodu koronawirusa zostancie w domu!")
@@ -176,7 +177,7 @@ public class NewsServiceTest {
                 .build());
 
         //when
-        newsService.edit(newsRequest, news.getId(), lecturer1);
+        newsService.edit(newsEditRequest, news.getId(), lecturer1);
 
         //then
         assertEquals("Title", newsRepository.findById(news.getId()).get().getTitle());

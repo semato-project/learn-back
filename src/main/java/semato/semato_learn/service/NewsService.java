@@ -2,7 +2,8 @@ package semato.semato_learn.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import semato.semato_learn.controller.payload.NewsRequest;
+import semato.semato_learn.controller.payload.NewsCreateRequest;
+import semato.semato_learn.controller.payload.NewsEditRequest;
 import semato.semato_learn.controller.payload.NewsResponse;
 import semato.semato_learn.model.Lecturer;
 import semato.semato_learn.model.News;
@@ -15,6 +16,8 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 @Service
 public class NewsService {
@@ -45,21 +48,22 @@ public class NewsService {
         }
     }
 
-    public News add(NewsRequest newsRequest) {
-        return newsRepository.save(News.builder()
-                .lecturer(lecturerBaseRepository.findById(newsRequest.getLecturerId()).orElseThrow(() -> new IllegalArgumentException("Lecturer not found!")))
-                .title(newsRequest.getTitle())
-                .description(newsRequest.getDescription())
+    public NewsResponse add(NewsCreateRequest newsCreateRequest, User user) {
+        News news = newsRepository.save(News.builder()
+                .lecturer(lecturerBaseRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("Lecturer not found!")))
+                .title(newsCreateRequest.getTitle())
+                .description(newsCreateRequest.getDescription())
                 .build());
+        return NewsResponse.create(news);
     }
 
-    public News edit(NewsRequest newsRequest, Long newsId, User user) throws IllegalArgumentException {
+    public NewsResponse edit(NewsEditRequest newsEditRequest, Long newsId, User user) throws IllegalArgumentException {
         News news = getNews(newsId, user);
-        news.setTitle(newsRequest.getTitle());
-        news.setDescription(newsRequest.getDescription());
+        if(!isEmpty(newsEditRequest.getTitle())) { news.setTitle(newsEditRequest.getTitle()); }
+        if(!isEmpty(newsEditRequest.getDescription())) { news.setDescription(newsEditRequest.getDescription()); }
         news.setUpdatedAt(Instant.now());
         newsRepository.save(news);
-        return news;
+        return NewsResponse.create(news);
     }
 
     public void delete(Long newsId, User user) throws IllegalArgumentException {
