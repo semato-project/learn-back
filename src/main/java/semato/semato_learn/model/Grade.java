@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import semato.semato_learn.service.CourseService;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -15,6 +16,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 @Entity
+@EntityListeners(CourseService.class)
 @JsonIgnoreProperties(
         value = {"createdAt", "updatedAt"},
         allowGetters = true
