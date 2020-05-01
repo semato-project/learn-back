@@ -1,5 +1,8 @@
 package semato.semato_learn.service;
 
+import org.hibernate.event.spi.PostUpdateEvent;
+import org.hibernate.event.spi.PostUpdateEventListener;
+import org.hibernate.persister.entity.EntityPersister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import semato.semato_learn.controller.payload.CourseRequest;
@@ -12,6 +15,9 @@ import semato.semato_learn.model.repository.CourseRepository;
 import semato.semato_learn.model.repository.GroupRepository;
 import semato.semato_learn.model.repository.TaskRepository;
 
+import javax.persistence.PostUpdate;
+import javax.persistence.PreUpdate;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -95,5 +101,10 @@ public class CourseService {
         return course.getLecturer().getId() == lecturer.getId();
     }
 
+    @PreUpdate
+    public void onGradePreUpdate(Grade grade) {
+            Course course = grade.getTask().getCourse();
+            course.setUpdatedAt(Instant.now());
+    }
 
 }
