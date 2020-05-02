@@ -32,11 +32,11 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Secured({"ROLE_LECTURER"})
+    @Secured({"ROLE_LECTURER", "ROLE_STUDENT"})
     @GetMapping("/")
     @ApiOperation(value = "Get all courses")
     public ResponseEntity getAll(@ApiIgnore @CurrentUser UserPrincipal currentUser) {
-        return ResponseEntity.ok(courseService.getAll(currentUser.getId()));
+        return ResponseEntity.ok(courseService.getAll(currentUser.getUser()));
     }
 
 
