@@ -83,6 +83,13 @@ public class NewsServiceTest {
                 .description("Zajecia odwolane do odwolania!")
                 .lecturer(lecturer1)
                 .build());
+        News newsToDelete = newsRepository.save(News.builder()
+                .title("News!")
+                .description("Do usunięcia")
+                .lecturer(lecturer1)
+                .build());
+
+        newsService.delete(newsToDelete.getId(), lecturer1);
 
         Group group2 = new Group();
         Lecturer lecturer2 = mockService.mockLecturer("second@gmail.com");

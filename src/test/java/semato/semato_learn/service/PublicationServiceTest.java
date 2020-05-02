@@ -83,6 +83,13 @@ public class PublicationServiceTest {
                 .description("Opis publikacji")
                 .lecturer(lecturer1)
                 .build());
+        Publication publicationToDelete = publicationRepository.save(Publication.builder()
+                .title("Publikacja3!")
+                .description("do usunięcia")
+                .lecturer(lecturer1)
+                .build());
+
+        publicationService.delete(publicationToDelete.getId(), lecturer1);
 
         Group group2 = new Group();
         Lecturer lecturer2 = mockService.mockLecturer("second@gmail.com");
@@ -181,6 +188,28 @@ public class PublicationServiceTest {
 
         //then
         assertEquals("Title", publicationRepository.findById(publication.getId()).get().getTitle());
+    }
+
+    @Test
+    public void whenGetAllPublication_givenPublicationWithDeletedAtNull_thenReturnExcludeDeleted() {
+        //given
+        Lecturer lecturer = mockService.mockLecturer();
+        Publication publication1= publicationRepository.save(Publication.builder()
+                .title("Publikacja1!")
+                .description("Do usuniecia!")
+                .lecturer(lecturer)
+                .build());
+        Publication publication2= publicationRepository.save(Publication.builder()
+                .title("Publikacja2!")
+                .description("Opis publikacji!")
+                .lecturer(lecturer)
+                .build());
+
+        //when
+        publicationService.delete(publication1.getId(), lecturer);
+
+        //then
+        assertEquals(1, publicationService.getAllByLecturer(lecturer).size());
     }
 
 }

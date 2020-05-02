@@ -29,7 +29,7 @@ public class PublicationService {
     private UserBaseRepository<Lecturer> lecturerBaseRepository;
 
     public List<PublicationResponse> getAllByLecturer(User user) {
-        List<Publication> publications = publicationRepository.findAllByLecturerId(user.getId()).orElse(Collections.emptyList());
+        List<Publication> publications = publicationRepository.findAllByLecturerIdAndDeletedAtIsNull(user.getId()).orElse(Collections.emptyList());
         return createPublicationResponse(publications);
     }
 
