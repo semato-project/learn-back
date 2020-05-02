@@ -7,9 +7,10 @@ import java.util.Set;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 public class ProjectGroup {
 
     @Id
