@@ -14,7 +14,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     Optional<List<Course>> findAllByLecturerId(Long lecturerId);
 
     @Query(value = "Select c.* from course c " +
-            "join \"user\" st on st.group_id = c.group_id " +
+            "join `user` st on st.group_id = c.group_id " +
             "where st.id = :studentId", nativeQuery = true)
     Optional<List<Course>> findAllByStudentGroup(Long studentId);
 }
