@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import semato.semato_learn.controller.payload.PublicationRequest;
+import semato.semato_learn.controller.payload.PublicationCreateRequest;
+import semato.semato_learn.controller.payload.PublicationEditRequest;
+import semato.semato_learn.controller.payload.PublicationResponse;
+import semato.semato_learn.model.Publication;
 import semato.semato_learn.model.RoleName;
 import semato.semato_learn.service.PublicationService;
 import semato.semato_learn.util.security.CurrentUser;
@@ -20,28 +23,28 @@ public class PublicationsController {
     @Autowired
     private PublicationService publicationService;
 
-    @PutMapping("/")
+    @PostMapping("/")
     @Secured({"ROLE_LECTURER"})
     @ApiOperation(value = "Endpoint to adding publication by logged lecturer")
     public ResponseEntity addPublication(@ApiIgnore @CurrentUser UserPrincipal user,
-                                         @RequestBody PublicationRequest publicationRequest) {
+                                         @RequestBody PublicationCreateRequest publicationCreateRequest) {
         try {
-            publicationService.add(publicationRequest);
-            return ResponseEntity.ok(HttpStatus.CREATED);
+            PublicationResponse publication = publicationService.add(publicationCreateRequest, user.getUser());
+            return ResponseEntity.status(HttpStatus.CREATED).body(publication);
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     @Secured({"ROLE_LECTURER"})
     @ApiOperation(value = "Endpoint to editing publication by logged lecturer")
     public ResponseEntity editPublication(@ApiIgnore @CurrentUser UserPrincipal user,
                                           @PathVariable("id") Long publicationId,
-                                          @RequestBody PublicationRequest publicationRequest) {
+                                          @RequestBody PublicationEditRequest publicationEditRequest) {
         try {
-            publicationService.edit(publicationRequest, publicationId, user.getUser());
-            return ResponseEntity.ok(HttpStatus.CREATED);
+            publicationService.edit(publicationEditRequest, publicationId, user.getUser());
+            return ResponseEntity.ok().build();
         } catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

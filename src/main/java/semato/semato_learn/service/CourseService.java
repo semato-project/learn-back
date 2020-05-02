@@ -1,13 +1,10 @@
 package semato.semato_learn.service;
 
-import org.hibernate.event.spi.PostUpdateEvent;
-import org.hibernate.event.spi.PostUpdateEventListener;
-import org.hibernate.persister.entity.EntityPersister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import semato.semato_learn.controller.payload.CourseExtendedResponse;
 import semato.semato_learn.controller.payload.CourseRequest;
 import semato.semato_learn.controller.payload.CourseResponse;
-import semato.semato_learn.controller.payload.CourseExtendedResponse;
 import semato.semato_learn.controller.payload.TaskRequest;
 import semato.semato_learn.exception.InvalidGranAuthority;
 import semato.semato_learn.model.*;
@@ -15,10 +12,12 @@ import semato.semato_learn.model.repository.CourseRepository;
 import semato.semato_learn.model.repository.GroupRepository;
 import semato.semato_learn.model.repository.TaskRepository;
 
-import javax.persistence.PostUpdate;
 import javax.persistence.PreUpdate;
 import java.time.Instant;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,9 +59,18 @@ public class CourseService {
 
     }
 
-    public List<CourseResponse> getAll(Long id) {
-        List<Course> courses = courseRepository.findAllByLecturerId(id).orElse(Collections.emptyList());
-        return createCoursesResponse(courses);
+    public List<CourseResponse> getAll(User user) {
+        if (user.getRole().equals(RoleName.ROLE_LECTURER)) {
+            List<Course> courses = courseRepository
+                    .findAllByLecturerId(user.getId()).orElse(Collections.emptyList());
+            return createCoursesResponse(courses);
+        } else if (user.getRole().equals(RoleName.ROLE_STUDENT)) {
+            List<Course> courses = courseRepository.
+                    findAllByStudentGroup(user.getId()).orElse(Collections.emptyList());
+            return createCoursesResponse(courses);
+        } else {
+            throw new InvalidGranAuthority();
+        }
     }
 
     private List<CourseResponse> createCoursesResponse(List<Course> courses) {

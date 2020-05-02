@@ -14,7 +14,9 @@ public class NewsResponse {
 
     private Long id;
 
-    private Long lecturerId;
+    private String lecturerFirstName;
+
+    private String lecturerLastName;
 
     private String title;
 
@@ -24,14 +26,18 @@ public class NewsResponse {
 
     private Instant updatedAt;
 
+    private Instant deletedAt;
+
     public static NewsResponse create(News news) {
         return NewsResponse.builder()
                 .id(news.getId())
-                .lecturerId(news.getLecturer().getId())
+                .lecturerFirstName(news.getLecturer().getFirstName())
+                .lecturerLastName(news.getLecturer().getLastName())
                 .title(news.getTitle())
                 .description(news.getDescription())
                 .createdAt(news.getCreatedAt())
                 .updatedAt(news.getUpdatedAt())
+                .deletedAt(news.getDeletedAt())
                 .build();
     }
 }

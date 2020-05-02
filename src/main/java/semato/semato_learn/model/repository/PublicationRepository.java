@@ -12,11 +12,11 @@ import java.util.Optional;
 @Repository
 public interface PublicationRepository extends JpaRepository<Publication, Long> {
 
-    Optional<List<Publication>> findAllByLecturerId(Long lecturerId);
+    Optional<List<Publication>> findAllByLecturerIdAndDeletedAtIsNull(Long lecturerId);
 
-    @Query(value = "Select p.id, p.lecturer_id, p.title, p.description, p.created_at, p.updated_at from publication p " +
-            "join user lec on p.lecturer_id = lec.id " +
+    @Query(value = "Select p.id, p.lecturer_id, p.title, p.description, p.created_at, p.updated_at, p.deleted_at from publication p " +
+            "join \"user\" lec on p.lecturer_id = lec.id " +
             "join course c on c.lecturer_id = lec.id " +
-            "where c.group_id=:studentGroupId", nativeQuery = true)
+            "where c.group_id=:studentGroupId and p.deleted_at is null", nativeQuery = true)
     Optional<List<Publication>> findAllByStudentGroup(@Param("studentGroupId") Long studentGroupId);
 }

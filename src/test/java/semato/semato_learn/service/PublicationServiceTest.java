@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import semato.semato_learn.SematoLearnApplication;
-import semato.semato_learn.controller.payload.PublicationRequest;
+import semato.semato_learn.controller.payload.PublicationCreateRequest;
+import semato.semato_learn.controller.payload.PublicationEditRequest;
 import semato.semato_learn.controller.payload.PublicationResponse;
 import semato.semato_learn.model.*;
 import semato.semato_learn.model.repository.GroupRepository;
@@ -82,6 +83,13 @@ public class PublicationServiceTest {
                 .description("Opis publikacji")
                 .lecturer(lecturer1)
                 .build());
+        Publication publicationToDelete = publicationRepository.save(Publication.builder()
+                .title("Publikacja3!")
+                .description("do usunięcia")
+                .lecturer(lecturer1)
+                .build());
+
+        publicationService.delete(publicationToDelete.getId(), lecturer1);
 
         Group group2 = new Group();
         Lecturer lecturer2 = mockService.mockLecturer("second@gmail.com");
@@ -137,10 +145,10 @@ public class PublicationServiceTest {
     public void whenAdd_givenPublicationRequest_thenSavePublication() {
         //given
         Lecturer lecturer1 = mockService.mockLecturer();
-        PublicationRequest publicationRequest = new PublicationRequest(lecturer1.getId(), "Title", "Description");
+        PublicationCreateRequest publicationCreateRequest = new PublicationCreateRequest("Title", "Description");
 
         //when
-        Publication publication = publicationService.add(publicationRequest);
+        PublicationResponse publication = publicationService.add(publicationCreateRequest, lecturer1);
 
         //then
         assertTrue(publicationRepository.findById(publication.getId()).isPresent());
@@ -168,7 +176,7 @@ public class PublicationServiceTest {
     public void whenEdit_givenPublicationIdAndPublicationRequest_thenUpdatePublication() {
         //given
         Lecturer lecturer1 = mockService.mockLecturer();
-        PublicationRequest publicationRequest = new PublicationRequest(lecturer1.getId(), "Title", "Description");
+        PublicationEditRequest publicationEditRequest = new PublicationEditRequest("Title", "Description");
         Publication publication= publicationRepository.save(Publication.builder()
                 .title("Publikacja1!")
                 .description("Opis publikacji")
@@ -176,10 +184,32 @@ public class PublicationServiceTest {
                 .build());
 
         //when
-        publicationService.edit(publicationRequest, publication.getId(), lecturer1);
+        publicationService.edit(publicationEditRequest, publication.getId(), lecturer1);
 
         //then
         assertEquals("Title", publicationRepository.findById(publication.getId()).get().getTitle());
+    }
+
+    @Test
+    public void whenGetAllPublication_givenPublicationWithDeletedAtNull_thenReturnExcludeDeleted() {
+        //given
+        Lecturer lecturer = mockService.mockLecturer();
+        Publication publication1= publicationRepository.save(Publication.builder()
+                .title("Publikacja1!")
+                .description("Do usuniecia!")
+                .lecturer(lecturer)
+                .build());
+        Publication publication2= publicationRepository.save(Publication.builder()
+                .title("Publikacja2!")
+                .description("Opis publikacji!")
+                .lecturer(lecturer)
+                .build());
+
+        //when
+        publicationService.delete(publication1.getId(), lecturer);
+
+        //then
+        assertEquals(1, publicationService.getAllByLecturer(lecturer).size());
     }
 
 }

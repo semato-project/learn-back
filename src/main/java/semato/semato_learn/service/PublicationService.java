@@ -2,7 +2,8 @@ package semato.semato_learn.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import semato.semato_learn.controller.payload.PublicationRequest;
+import semato.semato_learn.controller.payload.PublicationCreateRequest;
+import semato.semato_learn.controller.payload.PublicationEditRequest;
 import semato.semato_learn.controller.payload.PublicationResponse;
 import semato.semato_learn.model.Lecturer;
 import semato.semato_learn.model.Publication;
@@ -16,6 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.util.StringUtils.isEmpty;
+
 @Service
 public class PublicationService {
 
@@ -26,7 +29,7 @@ public class PublicationService {
     private UserBaseRepository<Lecturer> lecturerBaseRepository;
 
     public List<PublicationResponse> getAllByLecturer(User user) {
-        List<Publication> publications = publicationRepository.findAllByLecturerId(user.getId()).orElse(Collections.emptyList());
+        List<Publication> publications = publicationRepository.findAllByLecturerIdAndDeletedAtIsNull(user.getId()).orElse(Collections.emptyList());
         return createPublicationResponse(publications);
     }
 
@@ -45,21 +48,22 @@ public class PublicationService {
         }
     }
 
-    public Publication add(PublicationRequest publicationRequest) {
-        return publicationRepository.save(Publication.builder()
-                .lecturer(lecturerBaseRepository.findById(publicationRequest.getLecturerId()).orElseThrow(() -> new IllegalArgumentException("Lecturer not found!")))
-                .title(publicationRequest.getTitle())
-                .description(publicationRequest.getDescription())
+    public PublicationResponse add(PublicationCreateRequest publicationCreateRequest, User user) {
+        Publication publication = publicationRepository.save(Publication.builder()
+                .lecturer(lecturerBaseRepository.findById(user.getId()).orElseThrow(() -> new IllegalArgumentException("Lecturer not found!")))
+                .title(publicationCreateRequest.getTitle())
+                .description(publicationCreateRequest.getDescription())
                 .build());
+        return PublicationResponse.create(publication);
     }
 
-    public Publication edit(PublicationRequest publicationRequest, Long publicationId, User user) throws IllegalArgumentException {
+    public PublicationResponse edit(PublicationEditRequest publicationEditRequest, Long publicationId, User user) throws IllegalArgumentException {
         Publication publication = getPublication(publicationId, user);
-        publication.setTitle(publicationRequest.getTitle());
-        publication.setDescription(publicationRequest.getDescription());
+        if(!isEmpty(publicationEditRequest.getTitle())) { publication.setTitle(publicationEditRequest.getTitle()); }
+        if(!isEmpty(publicationEditRequest.getDescription())) { publication.setDescription(publicationEditRequest.getDescription()); }
         publication.setUpdatedAt(Instant.now());
         publicationRepository.save(publication);
-        return publication;
+        return PublicationResponse.create(publication);
     }
 
     public void delete(Long publicationId, User user) throws IllegalArgumentException {
