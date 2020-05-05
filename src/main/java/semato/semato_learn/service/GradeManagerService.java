@@ -27,6 +27,9 @@ public class GradeManagerService {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private GradesAverageCounter gradesAverageCounter;
+
     public Grade addGrade(long studentId, long taskId, int taskNumber, double grade, Long lecturerId) throws IllegalArgumentException {
 
         Task task = taskRepository.findById(taskId)
@@ -126,6 +129,9 @@ public class GradeManagerService {
         return grade;
     }
 
+    public Double getFinalGrade(Student student, Course course) {
+        return gradesAverageCounter.getStudentGradeAverage(student, course);
+    }
 
 
 

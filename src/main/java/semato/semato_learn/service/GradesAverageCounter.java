@@ -15,17 +15,20 @@ public class GradesAverageCounter {
         if(student.getGradeList() != null) {
             Set<Grade> studentGradesList = student.getGradeList().stream()
                     .filter(grade -> grade.getTask().getCourse().equals(course))
+                    .filter(grade -> grade.getGradeValue() != null)
                     .collect(Collectors.toSet());
 
-            Double numerator = studentGradesList.stream()
-                    .mapToDouble(grade -> grade.getTask().getMarkWeight() * grade.getGradeValue())
-                    .sum();
+            if (studentGradesList.size() > 0) {
+                Double numerator = studentGradesList.stream()
+                        .mapToDouble(grade -> grade.getTask().getMarkWeight() * grade.getGradeValue())
+                        .sum();
 
-            Double weightSum = studentGradesList.stream()
-                    .mapToDouble(grade -> grade.getTask().getMarkWeight())
-                    .sum();
+                Double weightSum = studentGradesList.stream()
+                        .mapToDouble(grade -> grade.getTask().getMarkWeight())
+                        .sum();
 
-            return numerator / weightSum;
+                return numerator / weightSum;
+            }
         }
 
         return 0.0;

@@ -68,7 +68,7 @@ public class CourseController {
     }
 
     @GetMapping("/{id}/project-group")
-    @Secured({"ROLE_STUDENT"})
+    @Secured({"ROLE_LECTURER", "ROLE_STUDENT"})
     @ApiOperation(value = "Returns existing projectGroup list for course.")
     public ResponseEntity getByCourse(@PathVariable("id") Long id, @ApiIgnore @CurrentUser UserPrincipal currentUser) {
         try {

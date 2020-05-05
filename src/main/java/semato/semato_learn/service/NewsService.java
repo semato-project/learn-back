@@ -29,7 +29,7 @@ public class NewsService {
     private UserBaseRepository<Lecturer> lecturerBaseRepository;
 
     public List<NewsResponse> getAllByLecturer(User user) {
-        List<News> news = newsRepository.findAllByLecturerIdAndDeletedAtIsNull(user.getId()).orElse(Collections.emptyList());
+        List<News> news = newsRepository.findAllByLecturerIdAndDeletedAtIsNullOrderByIdDesc(user.getId()).orElse(Collections.emptyList());
         return createNewsResponse(news);
     }
 
