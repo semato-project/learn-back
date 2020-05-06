@@ -13,6 +13,7 @@ public class CourseParticipantResponse {
     private long studentId;
     private String firstName;
     private String lastName;
+    private Double finalGrade;
     private LinkedList<GradeResponse> gradeList = new LinkedList<>();
 
     public CourseParticipantResponse (Student student, Course course, GradeManagerService gradeManagerService) {
@@ -24,6 +25,8 @@ public class CourseParticipantResponse {
         for (Grade grade: gradeManagerService.getStudentGradesForCourse(student, course)) {
             gradeList.add(new GradeResponse(grade));
         }
+
+        finalGrade = gradeManagerService.getFinalGrade(student, course);
     }
 
     public long getStudentId() {
@@ -37,6 +40,8 @@ public class CourseParticipantResponse {
     public String getLastName() {
         return lastName;
     }
+
+    public Double getFinalGrade() {return finalGrade; }
 
     public LinkedList<GradeResponse> getGradeList() {
         return gradeList;
