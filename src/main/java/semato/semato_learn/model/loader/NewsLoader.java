@@ -26,18 +26,24 @@ public class NewsLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         newsRepository.save(News.builder()
                 .title("Koronawirus!")
-                .description("Z powodu koronawirusa zostancie w domu!")
-                .lecturer(lecturerUserBaseRepository.findByEmail(LecturerLoader.EMAIL).orElseThrow(RuntimeException::new))
+                .description("Z powodu koronawirusa zostancie w domu!" +
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras finibus mi ut augue mollis, id suscipit quam elementum. Donec vulputate sit amet eros ac vulputate. In lorem velit, tempor nec vestibulum non, tempus ac lectus. Morbi dapibus neque eget est ullamcorper vulputate. Nam malesuada eros ut urna congue tincidunt. Suspendisse eu feugiat nulla. Sed convallis, libero a rhoncus viverra, lorem nunc efficitur justo, in vestibulum est nisi sed sapien. Nulla malesuada diam a justo ultricies viverra. Quisque nulla nunc, pretium et suscipit nec, ultricies a lacus." + System.lineSeparator() +
+                        "Nulla ut risus nec nisl pharetra faucibus. Ut pretium egestas lacus. Sed vitae justo varius, pharetra lorem id, dignissim leo. Fusce interdum euismod elit, ac tempus purus ornare nec. Donec sed semper ligula. Sed enim justo, tempus ut condimentum vehicula, efficitur quis mauris. Suspendisse ultricies, tortor ac congue dignissim, elit tellus cursus enim, at faucibus turpis ligula eget mi. Fusce quis sapien et lectus ultrices imperdiet. In ac velit arcu. Curabitur vel euismod sapien.")
+                .lecturer(lecturerUserBaseRepository.findByEmail(LecturerLoader.PROFESORDOKTOR_EMAIL).orElseThrow(RuntimeException::new))
                 .build());
         newsRepository.save(News.builder()
                 .title("Zajecia odwolane!")
-                .description("Zajecia odwolane do odwolania!")
-                .lecturer(lecturerUserBaseRepository.findByEmail(LecturerLoader.EMAIL).orElseThrow(RuntimeException::new))
+                .description("Zajecia odwolane do odwolania!" +
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras finibus mi ut augue mollis, id suscipit quam elementum. Donec vulputate sit amet eros ac vulputate. In lorem velit, tempor nec vestibulum non, tempus ac lectus. Morbi dapibus neque eget est ullamcorper vulputate. Nam malesuada eros ut urna congue tincidunt. Suspendisse eu feugiat nulla. Sed convallis, libero a rhoncus viverra, lorem nunc efficitur justo, in vestibulum est nisi sed sapien. Nulla malesuada diam a justo ultricies viverra. Quisque nulla nunc, pretium et suscipit nec, ultricies a lacus." + System.lineSeparator() +
+                        "Nulla ut risus nec nisl pharetra faucibus. Ut pretium egestas lacus. Sed vitae justo varius, pharetra lorem id, dignissim leo. Fusce interdum euismod elit, ac tempus purus ornare nec. Donec sed semper ligula. Sed enim justo, tempus ut condimentum vehicula, efficitur quis mauris. Suspendisse ultricies, tortor ac congue dignissim, elit tellus cursus enim, at faucibus turpis ligula eget mi. Fusce quis sapien et lectus ultrices imperdiet. In ac velit arcu. Curabitur vel euismod sapien.")
+                .lecturer(lecturerUserBaseRepository.findByEmail(LecturerLoader.PROFESORDOKTOR_EMAIL).orElseThrow(RuntimeException::new))
                 .build());
         newsRepository.save(News.builder()
                 .title("Kolko IT")
-                .description("Zapraszamy na kolko IT!")
-                .lecturer(lecturerUserBaseRepository.findByEmail(LecturerLoader.EMAIL).orElseThrow(RuntimeException::new))
+                .description("Zapraszamy na kolko IT!" +
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras finibus mi ut augue mollis, id suscipit quam elementum. Donec vulputate sit amet eros ac vulputate. In lorem velit, tempor nec vestibulum non, tempus ac lectus. Morbi dapibus neque eget est ullamcorper vulputate. Nam malesuada eros ut urna congue tincidunt. Suspendisse eu feugiat nulla. Sed convallis, libero a rhoncus viverra, lorem nunc efficitur justo, in vestibulum est nisi sed sapien. Nulla malesuada diam a justo ultricies viverra. Quisque nulla nunc, pretium et suscipit nec, ultricies a lacus." + System.lineSeparator() +
+                        "Nulla ut risus nec nisl pharetra faucibus. Ut pretium egestas lacus. Sed vitae justo varius, pharetra lorem id, dignissim leo. Fusce interdum euismod elit, ac tempus purus ornare nec. Donec sed semper ligula. Sed enim justo, tempus ut condimentum vehicula, efficitur quis mauris. Suspendisse ultricies, tortor ac congue dignissim, elit tellus cursus enim, at faucibus turpis ligula eget mi. Fusce quis sapien et lectus ultrices imperdiet. In ac velit arcu. Curabitur vel euismod sapien.")
+                .lecturer(lecturerUserBaseRepository.findByEmail(LecturerLoader.PROFESORDOKTOR_EMAIL).orElseThrow(RuntimeException::new))
                 .build());
     }
 }

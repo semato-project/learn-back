@@ -11,10 +11,6 @@ import semato.semato_learn.model.Lecturer;
 import semato.semato_learn.model.RoleName;
 import semato.semato_learn.model.repository.UserBaseRepository;
 
-
-import java.time.LocalDate;
-import java.util.Collections;
-
 @Component
 @Profile("!test")
 @Order(2)
@@ -27,23 +23,25 @@ public class LecturerLoader implements ApplicationRunner {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    static final String EMAIL = "profesordoktor@example.com";
+    static final String PROFESORDOKTOR_EMAIL = "profesordoktor@example.com";
+    static final String DRSTRANGE_EMAIL = "drstrange@example.com";
     static final String PASSWORD = "qwerty";
 
     @Override
     public void run(ApplicationArguments args) {
+            createLecturer(PROFESORDOKTOR_EMAIL, "Profesor", "Doktor");
+            createLecturer(DRSTRANGE_EMAIL, "Dr", "Strange");
+    }
 
-        if(! lecturerUserBaseRepository.findByEmail(EMAIL).isPresent()) {
-
+    private void createLecturer(String email, String firstName, String lastName) {
+        if(! lecturerUserBaseRepository.findByEmail(email).isPresent()) {
             Lecturer lecturer = new Lecturer();
-            lecturer.setEmail(EMAIL);
-            lecturer.setFirstName("Profesor");
-            lecturer.setLastName("Doktor");
+            lecturer.setEmail(email);
+            lecturer.setFirstName(firstName);
+            lecturer.setLastName(lastName);
             lecturer.setPassword(passwordEncoder.encode(PASSWORD));
             lecturer.setRole(RoleName.ROLE_LECTURER);
             lecturerUserBaseRepository.save(lecturer);
-
-
         }
     }
 }
