@@ -25,7 +25,7 @@ public class Student extends User {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @OneToMany(mappedBy="student")
+    @OneToMany(mappedBy="student", fetch = FetchType.EAGER)
     private Set<Grade> gradeList;
 
 }
