@@ -76,20 +76,20 @@ public class CourseLoader implements ApplicationRunner {
 
 
         Set<Task> taskList2 = new HashSet<>();
-        taskList2.add(generateTask(course, 2, 2, TaskType.LAB));
-        taskList2.add(generateTask(course, 2, 2, TaskType.DISCUSSIONS));
-        taskList2.add(generateTask(course, 1, 5, TaskType.EXAM));
-        taskList2.add(generateTask(course, 1, 3, 2, TaskType.PROJECT));
+        taskList2.add(generateTask(course2, 2, 2, TaskType.LAB));
+        taskList2.add(generateTask(course2, 2, 2, TaskType.DISCUSSIONS));
+        taskList2.add(generateTask(course2, 1, 5, TaskType.EXAM));
+        taskList2.add(generateTask(course2, 1, 3, 2, TaskType.PROJECT));
         course2.setTasks(taskList2);
 
         Set<Task> taskList3 = new HashSet<>();
-        taskList3.add(generateTask(course, 4, 1, TaskType.DISCUSSIONS));
-        taskList3.add(generateTask(course, 1, 4, TaskType.EXAM));
+        taskList3.add(generateTask(course3, 4, 1, TaskType.DISCUSSIONS));
+        taskList3.add(generateTask(course3, 1, 4, TaskType.EXAM));
         course3.setTasks(taskList3);
 
         Set<Task> taskList4 = new HashSet<>();
-        taskList4.add(generateTask(course, 3, 3, TaskType.LAB));
-        taskList4.add(generateTask(course, 3, 3, TaskType.DISCUSSIONS));
+        taskList4.add(generateTask(course4, 3, 3, TaskType.LAB));
+        taskList4.add(generateTask(course4, 3, 3, TaskType.DISCUSSIONS));
         course4.setTasks(taskList4);
         courseRepository.save(course);
         courseRepository.save(course2);

@@ -16,6 +16,7 @@ import semato.semato_learn.util.security.CurrentUser;
 import semato.semato_learn.util.security.UserPrincipal;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 
 @RestController
@@ -72,11 +73,11 @@ public class CourseController {
     @ApiOperation(value = "Returns existing projectGroup list for course.")
     public ResponseEntity getByCourse(@PathVariable("id") Long id, @ApiIgnore @CurrentUser UserPrincipal currentUser) {
         try {
-            LinkedList<ProjectGroupResponse> projectGroupResponseList = new LinkedList<ProjectGroupResponse>();
+            LinkedList<ProjectGroupResponse> projectGroupResponseList = new LinkedList<>();
             for (ProjectGroup projectGroup: projectGroupService.getProjectGroupListForCourse(id)) {
                 projectGroupResponseList.add(new ProjectGroupResponse(projectGroup));
             }
-            return ResponseEntity.ok(projectGroupResponseList);
+            return ResponseEntity.ok(projectGroupResponseList.stream().sorted(Comparator.comparing(ProjectGroupResponse::getCreatedAt)));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -1,8 +1,10 @@
 package semato.semato_learn.model;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Set;
 
 @Getter
@@ -30,4 +32,9 @@ public class ProjectGroup {
     )
     @NonNull
     private Set<Student> students;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    @Builder.Default
+    private Instant createdAt = Instant.now();
 }
