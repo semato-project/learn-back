@@ -17,6 +17,8 @@ public class CourseResponse {
 
     private long groupId;
 
+    private int numberOfParticipants;
+
     private String name;
 
     private String description;
@@ -35,6 +37,7 @@ public class CourseResponse {
                     .courseId(course.getId())
                     .createdAt(course.getCreatedAt())
                     .updatedAt(course.getUpdatedAt())
+                    .numberOfParticipants(course.getGroup().getStudents().size())
                     .build();
     }
 }
