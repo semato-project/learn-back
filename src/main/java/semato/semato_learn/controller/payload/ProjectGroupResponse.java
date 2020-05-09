@@ -14,6 +14,7 @@ public class ProjectGroupResponse {
 
     private long projectGroupId;
     private long taskId;
+    private long maxGroupQuantity;
     private LinkedList<StudentResponse> studentResponseList = new LinkedList<StudentResponse>();
 
     @JsonIgnore
@@ -22,6 +23,7 @@ public class ProjectGroupResponse {
     public ProjectGroupResponse(ProjectGroup projectGroup) {
         projectGroupId = projectGroup.getId();
         taskId = projectGroup.getTask().getId();
+        maxGroupQuantity = projectGroup.getTask().getMaxGroupQuantity();
         for (Student student: projectGroup.getStudents()) {
             studentResponseList.add(new StudentResponse(student));
         }
