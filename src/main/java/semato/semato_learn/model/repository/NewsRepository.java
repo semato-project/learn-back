@@ -14,7 +14,7 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 
     Optional<List<News>> findAllByLecturerIdAndDeletedAtIsNullOrderByIdDesc(Long lecturerId);
 
-    @Query(value = "Select n.id, n.lecturer_id, n.title, n.description, n.created_at, n.updated_at, n.deleted_at from news n " +
+    @Query(value = "Select distinct n.id, n.lecturer_id, n.title, n.description, n.created_at, n.updated_at, n.deleted_at from news n " +
             "join `user` lec on n.lecturer_id = lec.id " +
             "join course c on c.lecturer_id = lec.id " +
             "where c.group_id=:studentGroupId " +
