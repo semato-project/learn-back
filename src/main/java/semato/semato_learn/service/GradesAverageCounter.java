@@ -5,6 +5,9 @@ import semato.semato_learn.model.Course;
 import semato.semato_learn.model.Grade;
 import semato.semato_learn.model.Student;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,10 +30,25 @@ public class GradesAverageCounter {
                         .mapToDouble(grade -> grade.getTask().getMarkWeight())
                         .sum();
 
-                return numerator / weightSum;
+                return roundUp(numerator / weightSum);
             }
         }
 
         return 0.0;
+    }
+
+    private Double roundUp(double number) {
+        BigDecimal bigDecimalNumber = new BigDecimal(String.valueOf(number));
+        double partOfTheTotal = bigDecimalNumber.intValue();
+        BigDecimal decimalPart = bigDecimalNumber.subtract(new BigDecimal(partOfTheTotal));
+        if(decimalPart.doubleValue() <= 0.25) {
+            return partOfTheTotal;
+        } else if (decimalPart.doubleValue() > 0.25 && decimalPart.doubleValue() < 0.75) {
+            return partOfTheTotal + 0.5;
+        } else if (decimalPart.doubleValue() > 0.75) {
+            return partOfTheTotal + 1;
+        } else {
+            return partOfTheTotal;
+        }
     }
 }
