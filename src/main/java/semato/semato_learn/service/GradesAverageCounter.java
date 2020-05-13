@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class GradesAverageCounter {
 
     public Double getStudentGradeAverage(Student student, Course course) {
-        if(student.getGradeList() != null) {
+        if (student.getGradeList() != null) {
             Set<Grade> studentGradesList = student.getGradeList().stream()
                     .filter(grade -> grade.getTask().getCourse().getId().equals(course.getId()))
                     .filter(grade -> grade.getGradeValue() != null)
@@ -29,26 +29,26 @@ public class GradesAverageCounter {
                 Double weightSum = studentGradesList.stream()
                         .mapToDouble(grade -> grade.getTask().getMarkWeight())
                         .sum();
-
-                return roundUp(numerator / weightSum);
+                return (weightSum > 0) ? roundUp(numerator / weightSum) : roundUp(numerator / 1);
             }
         }
+
 
         return 0.0;
     }
 
     private Double roundUp(double number) {
-        BigDecimal bigDecimalNumber = new BigDecimal(String.valueOf(number));
-        double partOfTheTotal = bigDecimalNumber.intValue();
-        BigDecimal decimalPart = bigDecimalNumber.subtract(new BigDecimal(partOfTheTotal));
-        if(decimalPart.doubleValue() <= 0.25) {
-            return partOfTheTotal;
-        } else if (decimalPart.doubleValue() > 0.25 && decimalPart.doubleValue() < 0.75) {
+        int partOfTheTotal = (int) number;
+        double decimalPart = partOfTheTotal - number;
+        if (decimalPart <= 0.25) {
+            return partOfTheTotal + 0.0;
+        } else if (decimalPart > 0.25 && decimalPart < 0.75) {
             return partOfTheTotal + 0.5;
-        } else if (decimalPart.doubleValue() > 0.75) {
-            return partOfTheTotal + 1;
+        } else if (decimalPart > 0.75) {
+            return partOfTheTotal + 1.0;
         } else {
-            return partOfTheTotal;
+            return partOfTheTotal + 0.0;
         }
     }
+
 }

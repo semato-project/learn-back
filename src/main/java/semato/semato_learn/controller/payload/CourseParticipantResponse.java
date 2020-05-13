@@ -13,7 +13,7 @@ public class CourseParticipantResponse {
     private long studentId;
     private String firstName;
     private String lastName;
-    private Double finalGrade;
+    private double finalGrade;
     private LinkedList<GradeResponse> gradeList = new LinkedList<>();
 
     public CourseParticipantResponse (Student student, Course course, GradeManagerService gradeManagerService) {

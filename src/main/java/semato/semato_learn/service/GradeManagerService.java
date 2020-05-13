@@ -129,7 +129,7 @@ public class GradeManagerService {
         return grade;
     }
 
-    public Double getFinalGrade(Student student, Course course) {
+    public double getFinalGrade(Student student, Course course) {
         return gradesAverageCounter.getStudentGradeAverage(student, course);
     }
 
