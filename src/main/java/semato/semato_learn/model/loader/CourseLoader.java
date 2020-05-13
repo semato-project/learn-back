@@ -50,7 +50,7 @@ public class CourseLoader implements ApplicationRunner {
                 .name("Programowanie obiektowe")
                 .description("Wprowadzenie do języka JAVA")
                 .group(groupRepository.findById(1L).orElseThrow(RuntimeException::new))
-                .lecturer(lecturerRepository.findByEmail(DRSTRANGE_EMAIL).orElseThrow(RuntimeException::new))
+                .lecturer(lecturerRepository.findByEmail(PROFESORDOKTOR_EMAIL).orElseThrow(RuntimeException::new))
                 .build();
 
         Course course3 = Course.builder()
