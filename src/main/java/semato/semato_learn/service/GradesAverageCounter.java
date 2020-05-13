@@ -17,7 +17,7 @@ public class GradesAverageCounter {
     public Double getStudentGradeAverage(Student student, Course course) {
         if(student.getGradeList() != null) {
             Set<Grade> studentGradesList = student.getGradeList().stream()
-                    .filter(grade -> grade.getTask().getCourse().equals(course))
+                    .filter(grade -> grade.getTask().getCourse().getId().equals(course.getId()))
                     .filter(grade -> grade.getGradeValue() != null)
                     .collect(Collectors.toSet());
 
