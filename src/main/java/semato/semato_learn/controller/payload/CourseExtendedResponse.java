@@ -8,8 +8,7 @@ import semato.semato_learn.model.Task;
 import semato.semato_learn.model.TaskType;
 import semato.semato_learn.service.GradeManagerService;
 
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @NoArgsConstructor
@@ -23,9 +22,9 @@ public class CourseExtendedResponse {
 
     private GroupResponse group;
 
-    private LinkedList<TaskResponse> taskList = new LinkedList<TaskResponse>();
+    private List<TaskResponse> taskList = new ArrayList<>();
 
-    private LinkedList<CourseParticipantResponse> participantList = new LinkedList<CourseParticipantResponse>();
+    private List<CourseParticipantResponse> participantList = new ArrayList<>();
 
     public CourseExtendedResponse(Course course, Set<Student> studentList, GradeManagerService gradeManagerService) {
         courseId = course.getId();
@@ -46,5 +45,7 @@ public class CourseExtendedResponse {
         for (Student student: studentList) {
             participantList.add(new CourseParticipantResponse(student, course, gradeManagerService));
         }
+
+        participantList.sort(Comparator.comparing(CourseParticipantResponse::getLastName).thenComparing(CourseParticipantResponse::getFirstName));
     }
 }
