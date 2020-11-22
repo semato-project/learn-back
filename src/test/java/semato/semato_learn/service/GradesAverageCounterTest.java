@@ -69,7 +69,7 @@ public class GradesAverageCounterTest {
         gradesTask.add(gradeManagerService.addGrade(student.getId(), task2.getId(), 1, 5, lecturer.getId()));
 
         student.setGradeList(gradesTask);
-        assertEquals(4.50, gradeAverageCounter.getStudentGradeAverage(student, course));
+        assertEquals(4, gradeAverageCounter.getStudentGradeAverage(student, course));
     }
 
     @Test
@@ -146,6 +146,6 @@ public class GradesAverageCounterTest {
         gradesTask.add(gradeManagerService.addGrade(student.getId(), task3.getId(), 2, 5, lecturer.getId()));
 
         student.setGradeList(gradesTask);
-        assertEquals(4.50, gradeAverageCounter.getStudentGradeAverage(student, course1));
+        assertEquals(4, gradeAverageCounter.getStudentGradeAverage(student, course1));
     }
 }

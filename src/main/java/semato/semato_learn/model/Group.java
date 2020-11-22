@@ -3,6 +3,7 @@ package semato.semato_learn.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -28,7 +29,8 @@ public class Group {
     private String academicYear;
 
     @OneToMany(mappedBy = "group")
-    private Set<Student> students;
+    @Builder.Default
+    private Set<Student> students = new HashSet<>();
 
     @OneToMany(mappedBy = "group")
     private Set<Course> courses;
